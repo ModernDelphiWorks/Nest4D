@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Validation.isiso4217currencycode;
+unit validation.isiso4217currencycode;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  Nest4D.Validator.Constraint,
-  Nest4D.Validation.Interfaces;
+  validator.constraint,
+  validation.interfaces;
 
 type
   TIsiso4217currencycode = class(TValidatorConstraint)

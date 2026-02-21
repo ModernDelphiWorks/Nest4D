@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Validation.isemail;
+unit validation.isemail;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  Nest4D.Validator.Constraint,
-  Nest4D.Validation.Interfaces;
+  validator.constraint,
+  validation.interfaces;
 
 type
   TIsemail = class(TValidatorConstraint)
@@ -53,10 +53,10 @@ var
   LMessage: String;
 begin
   Result.Success(False);
-
+  
   // TODO: Implement validation logic for isemail
   // This is a template - implement the actual validation logic
-
+  
   if not Result.ValueSuccess then
   begin
     LMessage := IfThen(Args.Message = '',
@@ -70,4 +70,3 @@ begin
 end;
 
 end.
-

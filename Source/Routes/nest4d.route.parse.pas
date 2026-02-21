@@ -1,4 +1,4 @@
-{
+﻿{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers?o 3, 29 de junho de 2007
+                      Vers�o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos ? permitido copiar e distribuir c?pias deste documento de
-       licen?a, mas mud?-lo n?o ? permitido.
+       A todos � permitido copiar e distribuir c�pias deste documento de
+       licen�a, mas mud�-lo n�o � permitido.
 
-       Esta vers?o da GNU Lesser General Public License incorpora
-       os termos e condi??es da vers?o 3 da GNU General Public License
-       Licen?a, complementado pelas permiss?es adicionais listadas no
+       Esta vers�o da GNU Lesser General Public License incorpora
+       os termos e condi��es da vers�o 3 da GNU General Public License
+       Licen�a, complementado pelas permiss�es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,26 +25,26 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit Nest4D.Route.Parse;
+unit nest4d.route.parse;
 
 interface
 
 uses
-  System.Rtti,
-  System.Types,
-  System.Classes,
-  System.SysUtils,
-  System.StrUtils,
-  Evolution4D.ResultPair,
-  Nest4D.Route.Abstract,
-  Nest4D.Route.Param,
-  Nest4D.Route.Service,
-  Nest4D.Route.Manager,
-  Nest4D.Request,
-  Nest4D.Exception,
-  Nest4D.Listener,
-  Nest4D.Injector,
-  Nest4D.Module;
+  Rtti,
+  Types,
+  Classes,
+  SysUtils,
+  StrUtils,
+  System.Evolution.ResultPair,
+  nest4d.route.abstract,
+  nest4d.route.param,
+  nest4d.route.service,
+  nest4d.route.manager,
+  nest4d.request,
+  nest4d.exception,
+  nest4d.listener,
+  nest4d.injector,
+  nest4d.module;
 
 type
   TReturnPair = TResultPair<TRouteAbstract, Exception>;
@@ -158,8 +158,6 @@ begin
 end;
 
 end.
-
-
 
 
 

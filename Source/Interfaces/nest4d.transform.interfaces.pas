@@ -1,12 +1,12 @@
-﻿unit Nest4D.Transform.Interfaces;
+﻿unit nest4d.transform.interfaces;
 
 interface
 
 uses
-  System.Rtti,
-  System.Generics.Collections,
-  Nest4D.Request,
-  Evolution4D.ResultPair;
+  Rtti,
+  Generics.Collections,
+  nest4d.request,
+  System.Evolution.ResultPair;
 
 type
   TResultTransform = TResultPair<TValue, String>;
@@ -43,9 +43,6 @@ type
 implementation
 
 end.
-
-
-
 
 
 

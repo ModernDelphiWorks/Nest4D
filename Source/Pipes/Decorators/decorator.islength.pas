@@ -4,9 +4,9 @@ interface
 
 uses
   SysUtils,
-  Decorator.IsBase,
-  Nest4D.Validation.types,
-  Validation.IsLength;
+  decorator.isbase,
+  nest4d.validation.types,
+  validation.IsLength;
 
 type
   IsLengthAttribute = class(IsAttribute)

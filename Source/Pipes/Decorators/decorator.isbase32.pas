@@ -1,11 +1,11 @@
-unit Decorator.IsBase32;
+unit decorator.isbase32;
 
 interface
 
 uses
   SysUtils,
-  Decorator.IsBase,
-  Nest4D.Validation.types;
+  decorator.isbase,
+  nest4d.validation.types;
 
 type
   IsBase32Attribute = class(IsAttribute)

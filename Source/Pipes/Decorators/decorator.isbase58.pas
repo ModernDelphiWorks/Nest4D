@@ -1,11 +1,11 @@
-unit Decorator.IsBase58;
+unit decorator.isbase58;
 
 interface
 
 uses
   SysUtils,
-  Decorator.IsBase,
-  Nest4D.Validation.types;
+  decorator.isbase,
+  nest4d.validation.types;
 
 type
   IsBase58Attribute = class(IsAttribute)

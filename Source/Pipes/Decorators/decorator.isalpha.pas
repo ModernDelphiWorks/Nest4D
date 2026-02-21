@@ -25,15 +25,15 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Decorator.IsAlpha;
+unit decorator.isalpha;
 
 interface
 
 uses
   SysUtils,
-  Decorator.IsBase,
-  Nest4D.Validation.types,
-  Validation.isalpha;
+  decorator.isbase,
+  nest4d.validation.types,
+  validation.isalpha;
 
 type
   IsAlphaAttribute = class(IsAttribute)

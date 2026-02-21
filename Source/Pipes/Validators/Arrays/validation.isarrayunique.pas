@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Validation.isarrayunique;
+unit validation.isarrayunique;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  Nest4D.Validator.Constraint,
-  Nest4D.Validation.Interfaces;
+  validator.constraint,
+  validation.interfaces;
 
 type
   TIsarrayunique = class(TValidatorConstraint)

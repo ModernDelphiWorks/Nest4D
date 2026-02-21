@@ -1,11 +1,10 @@
-unit Decorator.IsBase;
+unit decorator.isbase;
 
 interface
 
 uses
-  System.SysUtils,
-  System.Rtti,
-  Nest4D.Validation.types;
+  SysUtils,
+  nest4d.validation.types;
 
 type
   IsAttribute = class(TCustomAttribute)

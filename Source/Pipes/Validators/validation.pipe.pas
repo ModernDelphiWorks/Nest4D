@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -26,25 +26,25 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Validation.Pipe;
+unit validation.pipe;
 
 interface
 
 uses
-  System.Rtti,
-  System.TypInfo,
-  System.SysUtils,
-  System.StrUtils,
-  System.Generics.Collections,
-  Decorator.Include,
-  Evolution4D.ResultPair,
-  Evolution4D.Objects,
-  Evolution4D.Std,
-  Nest4D.Route.Handler,
-  Nest4D.Validation.Include,
-  Nest4D.Validation.Interfaces,
-  Nest4D.Transform.Interfaces,
-  Nest4D.Request;
+  Rtti,
+  TypInfo,
+  SysUtils,
+  StrUtils,
+  Generics.Collections,
+  System.Evolution.ResultPair,
+  System.Evolution.Objects,
+  System.Evolution.Std,
+  nest4d.route.handler,
+  decorator.include,
+  nest4d.validation.include,
+  nest4d.validation.interfaces,
+  nest4d.transform.interfaces,
+  nest4d.request;
 
 type
   TValidations = class(TList<IValidationInfo>);
@@ -171,7 +171,7 @@ begin
     for LValidator in FValidations do
     begin
       LResultValidation := LValidator.Validator.Validate(LValidator.Value,
-                                                         LValidator.Arguments);
+                                                         LValidator.Args);
       LResultValidation.When(
         procedure(Value: Boolean)
         begin
@@ -278,10 +278,10 @@ begin
     LValidation := TValidationInfo.Create;
     LValidation.Value := TValue.Empty;
     LValidation.Validator := LParam.Validation.Create as TValidatorConstraint;
-    LValidation.Arguments := TValidationArguments.Create([''],
-                                                  LParam.TagName,
-                                                  LParam.ParamName,
-                                                  LParam.Message, 'param', nil);
+    LValidation.Args := TValidationArguments.Create([''],
+                                                    LParam.TagName,
+                                                    LParam.ParamName,
+                                                    LParam.Message, 'param', nil);
     FValidations.Add(LValidation);
   end;
 end;
@@ -334,7 +334,7 @@ begin
                             aqui buscar do cache e n?o fazer reflex?o }
 
   {$IFDEF DEBUG}
-//  DebugPrint('RttiType -> ' + ARttiType.Name);
+  DebugPrint('RttiType -> ' + ARttiType.Name);
   {$ENDIF}
   for LMethod in ARttiType.GetMethods do
   begin
@@ -345,12 +345,12 @@ begin
      Continue;
 
     {$IFDEF DEBUG}
-//    DebugPrint('Method -> ' + LMethod.Name);
+    DebugPrint('Method -> ' + LMethod.Name);
     {$ENDIF}
     for LDecorator in LMethod.GetAttributes do
     begin
       {$IFDEF DEBUG}
-//      DebugPrint('Decorator -> ' + LDecorator.ClassName);
+      DebugPrint('Decorator -> ' + LDecorator.ClassName);
       {$ENDIF}
       if LDecorator is BodyAttribute then
         _ResolveBody(LDecorator, ARequest)
@@ -400,12 +400,12 @@ begin
           LValidation := TValidationInfo.Create;
           LValidation.Value := LValues[LFor];
           LValidation.Validator := LIsAttribute.Validation.Create as TValidatorConstraint;
-          LValidation.Arguments := TValidationArguments.Create(LParams_X,
-                                                        LIsAttribute.TagName,
-                                                        LProperty.Name,
-                                                        LIsAttribute.Message,
-                                                        AClass.ClassName,
-                                                        LClassType);
+          LValidation.Args := TValidationArguments.Create(LParams_X,
+                                                          LIsAttribute.TagName,
+                                                          LProperty.Name,
+                                                          LIsAttribute.Message,
+                                                          AClass.ClassName,
+                                                          LClassType);
           FValidations.Add(LValidation);
         end;
       end;
@@ -442,10 +442,10 @@ begin
     LValidation := TValidationInfo.Create;
     LValidation.Value := LValue;
     LValidation.Validator := LQuery.Validation.Create as TValidatorConstraint;
-    LValidation.Arguments := TValidationArguments.Create([''],
-                                                  LQuery.TagName,
-                                                  LQuery.QueryName,
-                                                  LQuery.Message, 'query', nil);
+    LValidation.Args := TValidationArguments.Create([''],
+                                                    LQuery.TagName,
+                                                    LQuery.QueryName,
+                                                    LQuery.Message, 'query', nil);
     FValidations.Add(LValidation);
   end;
 end;

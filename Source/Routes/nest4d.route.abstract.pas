@@ -1,16 +1,16 @@
-{
+﻿{
              Nest4D - Development Framework for Delphi
 
                    Copyright (c) 2023, Isaque Pinheiro
                           All rights reserved.
                     GNU Lesser General Public License
-                      Vers?o 3, 29 de junho de 2007
+                      Vers�o 3, 29 de junho de 2007
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos ? permitido copiar e distribuir c?pias deste documento de
-       licen?a, mas mud?-lo n?o ? permitido.
-       Esta vers?o da GNU Lesser General Public License incorpora
-       os termos e condi??es da vers?o 3 da GNU General Public License
-       Licen?a, complementado pelas permiss?es adicionais listadas no
+       A todos � permitido copiar e distribuir c�pias deste documento de
+       licen�a, mas mud�-lo n�o � permitido.
+       Esta vers�o da GNU Lesser General Public License incorpora
+       os termos e condi��es da vers�o 3 da GNU General Public License
+       Licen�a, complementado pelas permiss�es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 {
@@ -20,17 +20,14 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit Nest4D.Route.Abstract;
+unit nest4d.route.abstract;
 
 interface
 
 uses
-  System.SysUtils,
-  System.Generics.Collections,
-  Nest4D.Request,
-  Nest4D.Exception,
-  Nest4D.Listener,
-  Nest4D.Injector;
+  SysUtils,
+  Generics.Collections,
+  nest4d.request;
 
 type
   TRouteAbstract = class;
@@ -61,17 +58,16 @@ type
     FModule: TClass;
     [weak]FModuleInstance: TObject;
     FRouteMiddlewares: TMiddlewares;
-    FUsePool: Boolean;
     procedure _SetSchema(const Value: String);
     procedure _SetPath(const Value: String);
     procedure _SetParent(const Value: String);
     procedure _SetModuleInstance(const Value: TObject);
   public
     constructor Create(const APath: String; const ASchema: String;
-      const AModule: TClass; AMiddlewares: TMiddlewares; const AUsePool: Boolean = False); virtual;
+      const AModule: TClass; AMiddlewares: TMiddlewares); virtual;
     destructor Destroy; override;
     class function AddModule(const APath: String; const AModule: TClass;
-      const AMiddlewares: TMiddlewares; const AUsePool: Boolean = False): TRouteAbstract; virtual; abstract;
+      const AMiddlewares: TMiddlewares): TRouteAbstract; virtual; abstract;
     // Propertys
     property Schema: String read FSchema write _SetSchema;
     property Path: String read FPath write _SetPath;
@@ -79,21 +75,19 @@ type
     property Module: TClass read FModule;
     property Middlewares: TMiddlewares read FRouteMiddlewares;
     property ModuleInstance: TObject read FModuleInstance write _SetModuleInstance;
-    property UsePool: Boolean read FUsePool;
   end;
 
 implementation
 
 { TRoute }
 constructor TRouteAbstract.Create(const APath: String; const ASchema: String;
-  const AModule: TClass; AMiddlewares: TMiddlewares; const AUsePool: Boolean);
+  const AModule: TClass; AMiddlewares: TMiddlewares);
 begin
   FPath := APath;
   FSchema := ASchema;
   FParent := ASchema;
   FModule := AModule;
   FRouteMiddlewares := AMiddlewares;
-  FUsePool := AUsePool;
 end;
 
 destructor TRouteAbstract.Destroy;
@@ -141,4 +135,11 @@ begin
 end;
 
 end.
+
+
+
+
+
+
+
 

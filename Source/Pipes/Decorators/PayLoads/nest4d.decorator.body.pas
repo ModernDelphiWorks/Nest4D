@@ -1,13 +1,13 @@
-﻿unit Nest4D.Decorator.Body;
+﻿unit nest4d.decorator.body;
 
 interface
 
 uses
-  System.SysUtils,
-  System.Variants,
-  Decorator.IsBase,
-  Nest4D.Validation.Types,
-  Nest4D.Parse.ArrayOf.Pipe;
+  SysUtils,
+  Variants,
+  decorator.isbase,
+  nest4d.validation.types,
+  nest4d.parse.arrayof.pipe;
 
 type
   BodyAttribute = class(IsAttribute)
@@ -73,8 +73,5 @@ begin
 end;
 
 end.
-
-
-
 
 

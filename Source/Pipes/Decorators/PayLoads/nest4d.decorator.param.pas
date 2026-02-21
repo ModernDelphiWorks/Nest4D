@@ -1,12 +1,12 @@
-unit Nest4D.Decorator.Param;
+unit nest4d.decorator.param;
 
 interface
 
 uses
-  System.SysUtils,
-  System.Variants,
-  Decorator.IsBase,
-  Nest4D.Validation.Types;
+  SysUtils,
+  Variants,
+  decorator.isbase,
+  nest4d.validation.types;
 
 type
   ParamAttribute = class(IsAttribute)
@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  Nest4D.Transform.Pipe;
+  nest4d.transform.pipe;
 
 { ParamAttribute }
 
@@ -91,9 +91,4 @@ begin
 end;
 
 end.
-
-
-
-
-
 

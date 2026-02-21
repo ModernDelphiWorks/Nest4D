@@ -1,37 +1,41 @@
-﻿unit Validation.include;
+﻿unit validation.include;
 
 interface
 
 uses
-  System.Rtti,
-  System.Generics.Collections,
-  Decorator.IsBase,
-  Validation.IsString,
-  Validation.IsInteger,
-  Validation.IsEmpty,
-  Validation.IsNotEmpty,
-  Nest4D.Validation.Arguments,
-  Nest4D.Validation.Interfaces;
+  Rtti,
+  Generics.Collections,
+//  nest4d.decorator.body,
+//  nest4d.decorator.param,
+//  nest4d.decorator.query,
+  decorator.isbase,
+  validation.isString,
+  validation.isinteger,
+  validation.isempty,
+  validation.isnotempty,
+  nest4d.validation.arguments,
+  nest4d.validation.interfaces;
 
 type
   TConverter = TClass;
   TValidation = TClass;
   TObjectType = TClass;
-  IValidationArguments = Nest4D.Validation.Interfaces.IValidationArguments;
-  TValidationArguments = Nest4D.Validation.Arguments.TValidationArguments;
-  IValidatorConstraint = Nest4D.Validation.Interfaces.IValidatorConstraint;
-  TValue = System.Rtti.TValue;
-  TIsEmpty = Validation.IsEmpty.TIsEmpty;
-  TIsNotEmpty = Validation.IsNotEmpty.TIsNotEmpty;
-  TIsString = Validation.IsString.TIsString;
-  TIsInteger = Validation.IsInteger.TIsInteger;
+  IValidationArguments = nest4d.validation.interfaces.IValidationArguments;
+  TValidationArguments = nest4d.validation.arguments.TValidationArguments;
+  IValidatorConstraint = nest4d.validation.interfaces.IValidatorConstraint;
+//  TResultPair = nest4d.validation.interfaces.TResultValidation;
+  TValue = Rtti.TValue;
+//  TBody = decorator.body.TBody;
+//  TParam = nest4d.decorator.param.Param;
+//  TQuery = validation.query.TQuery;
+//  IsBase = decorator.isbase.TIsBase;
+  TIsEmpty = validation.isempty.TIsEmpty;
+  TIsNotEmpty = validation.isnotempty.TIsNotEmpty;
+  TIsString = validation.isString.TIsString;
+  TIsInteger = validation.isinteger.TIsInteger;
 
 implementation
 
 end.
-
-
-
-
 
 

@@ -1,12 +1,12 @@
-﻿unit Nest4D.Decorator.Query;
+﻿unit nest4d.decorator.query;
 
 interface
 
 uses
-  System.SysUtils,
-  System.Variants,
-  Decorator.IsBase,
-  Nest4D.Validation.Types;
+  SysUtils,
+  Variants,
+  decorator.isbase,
+  nest4d.validation.types;
 
 type
   QueryAttribute = class(IsAttribute)
@@ -32,7 +32,7 @@ type
 implementation
 
 uses
-  Nest4D.Transform.pipe;
+  nest4d.transform.pipe;
 
 { ParamAttribute }
 
@@ -91,11 +91,6 @@ begin
 end;
 
 end.
-
-
-
-
-
 
 
 

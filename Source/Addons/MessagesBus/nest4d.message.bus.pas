@@ -1,4 +1,4 @@
-{
+﻿{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers?o 3, 29 de junho de 2007
+                      Vers�o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos ? permitido copiar e distribuir c?pias deste documento de
-       licen?a, mas mud?-lo n?o ? permitido.
+       A todos � permitido copiar e distribuir c�pias deste documento de
+       licen�a, mas mud�-lo n�o � permitido.
 
-       Esta vers?o da GNU Lesser General Public License incorpora
-       os termos e condi??es da vers?o 3 da GNU General Public License
-       Licen?a, complementado pelas permiss?es adicionais listadas no
+       Esta vers�o da GNU Lesser General Public License incorpora
+       os termos e condi��es da vers�o 3 da GNU General Public License
+       Licen�a, complementado pelas permiss�es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -23,19 +23,19 @@
   @created(01 Mai 2023)
   @author(Isaque Pinheiro <isaquesp@gmail.com>)
   @homepage(https://www.isaquepinheiro.com.br)
-  @documentation(https://Nest4D-en.docs-br.com)
+  @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Nest4D.Message.Bus;
+unit nest4d.message.bus;
 
 interface
 
 uses
-  System.Rtti,
-  System.Classes,
-  System.StrUtils,
-  System.SysUtils,
-  System.Generics.Collections;
+  Rtti,
+  Classes,
+  StrUtils,
+  SysUtils,
+  Generics.Collections;
 
 type
   TCallback<T> = reference to procedure(const Value: T);
@@ -109,8 +109,6 @@ end;
 
 
 end.
-
-
 
 
 

@@ -1,4 +1,4 @@
-{
+﻿{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers?o 3, 29 de junho de 2007
+                      Vers�o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos ? permitido copiar e distribuir c?pias deste documento de
-       licen?a, mas mud?-lo n?o ? permitido.
+       A todos � permitido copiar e distribuir c�pias deste documento de
+       licen�a, mas mud�-lo n�o � permitido.
 
-       Esta vers?o da GNU Lesser General Public License incorpora
-       os termos e condi??es da vers?o 3 da GNU General Public License
-       Licen?a, complementado pelas permiss?es adicionais listadas no
+       Esta vers�o da GNU Lesser General Public License incorpora
+       os termos e condi��es da vers�o 3 da GNU General Public License
+       Licen�a, complementado pelas permiss�es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,13 +25,14 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit Nest4D.Bind.Abstract;
+unit nest4d.bind.abstract;
 
 interface
 
 uses
-  System.SysUtils,
-  Nest4D.Injector;
+  SysUtils,
+  injector4d,
+  injector4d.events;
 
 type
   TBindAbstract<T: class, constructor> = class
@@ -42,7 +43,7 @@ type
     FAddInstance: TObject;
   public
     destructor Destroy; override;
-    procedure IncludeInjector(const AInjector: TAppInjector); virtual; abstract;
+    procedure IncludeInjector(const AInjector4d: TInjector4D); virtual; abstract;
   end;
 
 implementation
@@ -57,6 +58,7 @@ begin
 end;
 
 end.
+
 
 
 

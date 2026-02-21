@@ -1,12 +1,12 @@
-unit Decorator.ArrayContains;
+unit decorator.arraycontains;
 
 interface
 
 uses
-  System.SysUtils,
-  Decorator.IsBase,
-  Nest4D.Validation.Types,
-  Validation.ArrayContains;
+  SysUtils,
+  decorator.isbase,
+  nest4d.validation.types,
+  validation.arraycontains;
 
 type
   ArrayContainsAttribute = class(IsAttribute)
@@ -41,10 +41,6 @@ begin
 end;
 
 end.
-
-
-
-
 
 
 

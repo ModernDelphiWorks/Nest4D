@@ -1,4 +1,4 @@
-﻿unit Nest4D.Route.Handler.Horse;
+﻿unit nest4d.route.handler.horse;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   SysUtils,
   Horse,
   Horse.Callback,
-  Nest4D.Route.Handler;
+  nest4d.route.handler;
 
 type
   TRouteHandlerHorse = class(TRouteHandler)

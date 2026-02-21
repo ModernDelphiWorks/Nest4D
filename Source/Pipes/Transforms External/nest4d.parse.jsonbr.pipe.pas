@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Nest4D.Parse.JsonBr.Pipe;
+unit nest4d.parse.jsonbr.pipe;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   Generics.Collections,
-  Nest4D.Transform.pipe,
-  Nest4D.Transform.interfaces;
+  nest4d.transform.pipe,
+  nest4d.transform.interfaces;
 
 
 type

@@ -26,7 +26,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Validation.ismin;
+unit validation.ismin;
 
 interface
 
@@ -34,8 +34,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  Nest4D.Validator.Constraint,
-  Nest4D.Validation.Interfaces;
+  nest4d.validator.constraint,
+  nest4d.validation.interfaces;
 
 type
   TIsMin = class(TValidatorConstraint)

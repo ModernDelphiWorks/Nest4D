@@ -1,19 +1,19 @@
-{
+﻿{
              Nest4D - Development Framework for Delphi
 
                    Copyright (c) 2023, Isaque Pinheiro
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers?o 3, 29 de junho de 2007
+                      Vers�o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos ? permitido copiar e distribuir c?pias deste documento de
-       licen?a, mas mud?-lo n?o ? permitido.
+       A todos � permitido copiar e distribuir c�pias deste documento de
+       licen�a, mas mud�-lo n�o � permitido.
 
-       Esta vers?o da GNU Lesser General Public License incorpora
-       os termos e condi??es da vers?o 3 da GNU General Public License
-       Licen?a, complementado pelas permiss?es adicionais listadas no
+       Esta vers�o da GNU Lesser General Public License incorpora
+       os termos e condi��es da vers�o 3 da GNU General Public License
+       Licen�a, complementado pelas permiss�es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -22,34 +22,35 @@
   @created(01 Mai 2023)
   @author(Isaque Pinheiro <isaquesp@gmail.com>)
   @homepage(https://www.isaquepinheiro.com.br)
-  @documentation(https://Nest4D-en.docs-br.com)
+  @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Nest4D;
+unit nest4d;
 
 interface
 
 uses
-  System.Rtti,
-  System.Types,
-  System.Classes,
-  System.SysUtils,
-  System.StrUtils,
-  System.Generics.Collections,
-  Evolution4D.ResultPair,
-  Nest4D.Module,
-  Nest4D.Route.Parse,
-  Nest4D.Module.Service,
-  Nest4D.Bind.Service,
-  Nest4D.Validation.Interfaces,
-  Nest4D.Route.Handler,
-  Nest4D.Rpc.Interfaces,
-  Nest4D.Rpc.Resource,
-  Nest4D.Injector,
-  Nest4D.Exception,
-  Nest4D.Register,
-  Nest4D.Request,
-  Nest4D.Listener;
+  Rtti,
+  Types,
+  Classes,
+  SysUtils,
+  StrUtils,
+  Generics.Collections,
+  injector4d.service,
+  System.Evolution.ResultPair,
+  nest4d.module,
+  nest4d.route.parse,
+  nest4d.module.service,
+  nest4d.bind.service,
+  nest4d.validation.interfaces,
+  nest4d.route.handler,
+  nest4d.rpc.interfaces,
+  nest4d.rpc.resource,
+  nest4d.injector,
+  nest4d.exception,
+  nest4d.register,
+  nest4d.request,
+  nest4d.listener;
 
 type
   TNest4D = class sealed
@@ -92,13 +93,13 @@ type
     function Request: IRouteRequest;
   end;
 
-function GetNest4D: TNest4D;
+function GetNest4d: TNest4D;
 
 implementation
 
 { TNest4D }
 
-function GetNest4D: TNest4D;
+function GetNest4d: TNest4D;
 begin
   Result := GAppInjector^.Get<TNest4D>;
 end;
@@ -192,7 +193,7 @@ begin
   Result := Self;
   if Assigned(FListener) then
   begin
-    FListener.Execute(FormatListenerMessage('[Nest4DStart] Starting Nest4D application...'));
+    FListener.Execute(FormatListenerMessage('[Nest4dStart] Starting Nest4D application...'));
     FListener.Execute(FormatListenerMessage('[InstanceLoader] AppModule dependencies initialized'));
     for LModule in AModule.Imports do
       FListener.Execute(FormatListenerMessage(Format('[InstanceImported] %s dependencies imported', [LModule.ClassName])));
@@ -291,7 +292,7 @@ procedure TNest4D.Finalize;
 begin
   // Do not change the order.
   FAppModule.Free;
-  FAppInjector^.ExtractInjector<TAppInjector>(C_Nest4D);
+  FAppInjector^.ExtractInjector<TAppInjector>(C_NEST4D);
 end;
 
 procedure TNest4D._ResolveDisposeRouteModule(const APath: String);
@@ -312,10 +313,5 @@ begin
 end;
 
 end.
-
-
-
-
-
 
 

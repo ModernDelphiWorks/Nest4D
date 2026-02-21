@@ -25,64 +25,64 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit Nest4D.Validation.include;
+unit nest4d.validation.include;
 
 interface
 
 uses
-  System.Rtti,
-  System.Generics.Collections,
-  Nest4D.Transform.Pipe,
-  Nest4D.Transform.Arguments,
-  Nest4D.Transform.Interfaces,
-  Nest4D.Parse.Json.Pipe,
-  Nest4D.Parse.Integer.Pipe,
-  Nest4D.Validation.Arguments,
-  Nest4D.Validator.Constraint,
-  Validation.isString,
-  Validation.isinteger,
-  Validation.isempty,
-  Validation.isnotempty,
-  Validation.isarray,
-  Validation.isobject,
-  Validation.isnumber,
-  Validation.isdate,
-  Validation.isBoolean,
-  Validation.isenum,
-  Nest4D.Validation.Interfaces;
+  Rtti,
+  Generics.Collections,
+  nest4d.transform.pipe,
+  nest4d.transform.arguments,
+  nest4d.transform.interfaces,
+  nest4d.parse.json.pipe,
+  nest4d.parse.integer.pipe,
+  nest4d.validation.arguments,
+  nest4d.validator.constraint,
+  validation.isString,
+  validation.isinteger,
+  validation.isempty,
+  validation.isnotempty,
+  validation.isarray,
+  validation.isobject,
+  validation.isnumber,
+  validation.isdate,
+  validation.isBoolean,
+  validation.isenum,
+  nest4d.validation.interfaces;
 
 type
-  TResultValidation = Nest4D.Validation.Interfaces.TResultValidation;
-  TResultTransform = Nest4D.Transform.interfaces.TResultTransform;
-  TJsonMapped = Nest4D.Transform.interfaces.TJsonMapped;
+  TResultValidation = nest4d.validation.interfaces.TResultValidation;
+  TResultTransform = nest4d.transform.interfaces.TResultTransform;
+  TJsonMapped = nest4d.transform.interfaces.TJsonMapped;
   //
-  TTransformPipe = Nest4D.Transform.pipe.TTransformPipe;
-  ITransformArguments = Nest4D.Transform.interfaces.ITransformArguments;
-  TTransformArguments = Nest4D.Transform.arguments.TTransformArguments;
+  TTransformPipe = nest4d.transform.pipe.TTransformPipe;
+  ITransformArguments = nest4d.transform.interfaces.ITransformArguments;
+  TTransformArguments = nest4d.transform.arguments.TTransformArguments;
   //
-  IValidationArguments = Nest4D.Validation.Interfaces.IValidationArguments;
-  IValidatorConstraint = Nest4D.Validation.Interfaces.IValidatorConstraint;
-  IValidationInfo = Nest4D.Validation.Interfaces.IValidationInfo;
-  IValidationPipe = Nest4D.Validation.Interfaces.IValidationPipe;
-  ITransformInfo = Nest4D.Transform.interfaces.ITransformInfo;
-  ITransformPipe = Nest4D.Transform.interfaces.ITransformPipe;
+  IValidationArguments = nest4d.validation.interfaces.IValidationArguments;
+  IValidatorConstraint = nest4d.validation.interfaces.IValidatorConstraint;
+  IValidationInfo = nest4d.validation.interfaces.IValidationInfo;
+  IValidationPipe = nest4d.validation.interfaces.IValidationPipe;
+  ITransformInfo = nest4d.transform.interfaces.ITransformInfo;
+  ITransformPipe = nest4d.transform.interfaces.ITransformPipe;
   //
-  TValidationArguments = Nest4D.Validation.arguments.TValidationArguments;
-  TValidatorConstraint = Nest4D.validator.constraint.TValidatorConstraint;
+  TValidationArguments = nest4d.validation.arguments.TValidationArguments;
+  TValidatorConstraint = nest4d.validator.constraint.TValidatorConstraint;
   //
-  TParseJsonPipe = Nest4D.parse.json.pipe.TParseJsonPipe;
-  TParseIntegerPipe = Nest4D.parse.integer.pipe.TParseIntegerPipe;
+  TParseJsonPipe = nest4d.parse.json.pipe.TParseJsonPipe;
+  TParseIntegerPipe = nest4d.parse.integer.pipe.TParseIntegerPipe;
   //
-  TIsEmpty = Validation.isempty.TIsEmpty;
-  TIsNotEmpty = Validation.isnotempty.TIsNotEmpty;
-  TIsString = Validation.isString.TIsString;
-  TIsInteger = Validation.isinteger.TIsInteger;
-  TIsNumber = Validation.isnumber.TIsNumber;
-  TIsBoolean = Validation.isBoolean.TIsBoolean;
-  TIsDate = Validation.isdate.TIsDate;
-  TIsEnum = Validation.isenum.TIsEnum;
-  TIsObject = Validation.isobject.TIsObject;
-  TIsArray = Validation.isarray.TIsArray;
+  TIsEmpty = validation.isempty.TIsEmpty;
+  TIsNotEmpty = validation.isnotempty.TIsNotEmpty;
+  TIsString = validation.isString.TIsString;
+  TIsInteger = validation.isinteger.TIsInteger;
+  TIsNumber = validation.isnumber.TIsNumber;
+  TIsBoolean = validation.isBoolean.TIsBoolean;
+  TIsDate = validation.isdate.TIsDate;
+  TIsEnum = validation.isenum.TIsEnum;
+  TIsObject = validation.isobject.TIsObject;
+  TIsArray = validation.isarray.TIsArray;
 
 implementation
 
