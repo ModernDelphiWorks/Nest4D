@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit validation.isnotempty;
+unit Validation.isnotempty;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  nest4d.validator.constraint,
-  nest4d.validation.interfaces;
+  Nest4D.Validator.Constraint,
+  Nest4D.Validation.Interfaces;
 
 type
   TIsNotEmpty = class(TValidatorConstraint)

@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instalação - Nest4D</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="../../../Images/mascote_nest4d.jfif">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../../../Images/mascote_nest4d.jfif" alt="Nest4D" class="logo">
+                <span class="logo-text">Nest4D</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="introduction.html">Introdução</a></li>
+                <li><a href="installation.html">Instalação</a></li>
+                <li><a href="fundamentals.html">Fundamentos</a></li>
+                <li><a href="examples.html">Exemplos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>Introdução</h3>
+                <ul>
+                    <li><a href="introduction.html">Visão Geral</a></li>
+                    <li><a href="philosophy.html">Filosofia</a></li>
+                    <li><a href="installation.html" class="active">Instalação</a></li>
+                    <li><a href="first-steps.html">Primeiros Passos</a></li>
+                </ul>
+                
+                <h3>Fundamentos</h3>
+                <ul>
+                    <li><a href="modules.html">Módulos</a></li>
+                    <li><a href="controllers.html">Controladores</a></li>
+                    <li><a href="providers.html">Provedores</a></li>
+                    <li><a href="middleware.html">Middleware</a></li>
+                    <li><a href="exception-filters.html">Filtros de Exceção</a></li>
+                    <li><a href="pipes.html">Pipes</a></li>
+                    <li><a href="guards.html">Guards</a></li>
+                    <li><a href="interceptors.html">Interceptors</a></li>
+                </ul>
+                
+                <h3>Técnicas</h3>
+                <ul>
+                    <li><a href="logging.html">Logging</a></li>
+                    <li><a href="metrics.html">Métricas</a></li>
+                    <li><a href="health-checks.html">Health Checks</a></li>
+                    <li><a href="caching.html">Cache</a></li>
+                    <li><a href="validation.html">Validação</a></li>
+                    <li><a href="configuration.html">Configuração</a></li>
+                    <li><a href="performance.html">Performance</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Instalação</h1>
+                <p class="lead">Configure o Nest4D em seu projeto Delphi e comece a desenvolver aplicações modernas.</p>
+            </div>
+
+            <section class="content-section">
+                <h2>Pré-requisitos</h2>
+                <p>Antes de instalar o Nest4D, certifique-se de que você possui:</p>
+                
+                <div class="requirements-grid">
+                    <div class="requirement">
+                        <div class="req-icon">🎯</div>
+                        <div class="req-content">
+                            <h4>Delphi</h4>
+                            <p>Delphi 10.3 Rio ou superior</p>
+                            <span class="req-status recommended">Recomendado: Delphi 11+</span>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement">
+                        <div class="req-icon">🐎</div>
+                        <div class="req-content">
+                            <h4>Horse Framework</h4>
+                            <p>Para integração com servidor HTTP</p>
+                            <span class="req-status optional">Opcional: Para APIs REST</span>
+                        </div>
+                    </div>
+                    
+                    <div class="requirement">
+                        <div class="req-icon">📦</div>
+                        <div class="req-content">
+                            <h4>Boss Package Manager</h4>
+                            <p>Para gerenciamento de dependências</p>
+                            <span class="req-status recommended">Recomendado</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Instalação via Boss</h2>
+                <p>A forma mais simples de instalar o Nest4D é usando o Boss Package Manager:</p>
+                
+                <div class="installation-step">
+                    <h4>1. Instalar o Boss</h4>
+                    <p>Se você ainda não tem o Boss instalado, baixe-o do <a href="https://github.com/HashLoad/boss" target="_blank">repositório oficial</a>.</p>
+                </div>
+                
+                <div class="installation-step">
+                    <h4>2. Instalar o Nest4D</h4>
+                    <p>Execute o comando no terminal/prompt de comando:</p>
+                    <div class="code-example">
+                        <pre><code>boss install github.com/isaquepinheiro/nest4d</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                    </div>
+                </div>
+                
+                <div class="installation-step">
+                    <h4>3. Instalar dependências (se necessário)</h4>
+                    <p>Para usar com Horse:</p>
+                    <div class="code-example">
+                        <pre><code>boss install github.com/HashLoad/horse</code></pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Instalação Manual</h2>
+                <p>Se preferir instalar manualmente:</p>
+                
+                <div class="manual-steps">
+                    <div class="manual-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Download do Código</h4>
+                            <p>Baixe ou clone o repositório do Nest4D:</p>
+                            <div class="code-example">
+                                <pre><code>git clone https://github.com/isaquepinheiro/nest4d.git</code></pre>
+                                <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="manual-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Configurar Library Path</h4>
+                            <p>Adicione os seguintes diretórios ao Library Path do Delphi:</p>
+                            <ul class="path-list">
+                                <li><code>nest4d\Source\Core</code></li>
+                                <li><code>nest4d\Source\Interfaces</code></li>
+                                <li><code>nest4d\Source\Modules</code></li>
+                                <li><code>nest4d\Source\Pipes</code></li>
+                                <li><code>nest4d\Source\Routes</code></li>
+                                <li><code>nest4d\Source\Horse</code> (se usar Horse)</li>
+                                <li><code>nest4d\Source\Microservices</code> (se usar microserviços)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="manual-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Adicionar Units ao Projeto</h4>
+                            <p>Inclua as units necessárias em seu projeto:</p>
+                            <div class="code-example">
+                                <pre><code>uses
+  // Core do Nest4D
+  nest4d,
+  nest4d.logging,
+  nest4d.metrics,
+  nest4d.health,
+  nest4d.cache,
+  
+  // Para usar com Horse
+  nest4d.horse,
+  
+  // Pipes de validação
+  nest4d.pipes.validation;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Configuração Inicial</h2>
+                <p>Após a instalação, configure o Nest4D em seu projeto:</p>
+                
+                <div class="config-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" onclick="showTab('basic')">Configuração Básica</button>
+                        <button class="tab-btn" onclick="showTab('horse')">Com Horse</button>
+                        <button class="tab-btn" onclick="showTab('advanced')">Avançada</button>
+                    </div>
+                    
+                    <div id="basic" class="tab-content active">
+                        <h4>Configuração Básica</h4>
+                        <p>Para usar apenas as funcionalidades core do Nest4D:</p>
+                        <div class="code-example">
+                            <pre><code>program BasicExample;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  nest4d,
+  nest4d.logging,
+  nest4d.metrics;
+
+var
+  LNest: TNest4D;
+  LLogger: INest4DLogger;
+  LMetrics: INest4DMetrics;
+begin
+  try
+    // Inicializar o Nest4D
+    LNest := TNest4D.Create;
+    try
+      // Obter serviços
+      LLogger := LNest.GetLogger;
+      LMetrics := LNest.GetMetrics;
+      
+      // Usar os serviços
+      LLogger.Info('Aplicação iniciada');
+      LMetrics.Counter('app.started').Inc;
+      
+      WriteLn('Nest4D configurado com sucesso!');
+      ReadLn;
+    finally
+      LNest.Free;
+    end;
+  except
+    on E: Exception do
+      WriteLn('Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div id="horse" class="tab-content">
+                        <h4>Configuração com Horse</h4>
+                        <p>Para criar uma API REST com monitoramento automático:</p>
+                        <div class="code-example">
+                            <pre><code>program HorseExample;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  Horse,
+  nest4d.horse;
+
+// Endpoint simples
+procedure GetUsers(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+begin
+  // Logging, métricas e tracing automáticos!
+  AResponse.Status(200)
+           .ContentType('application/json')
+           .Send('[{"id": 1, "name": "João"}]');
+end;
+
+var
+  LApp: THorse;
+begin
+  try
+    LApp := THorse.Create;
+    
+    // Uma linha para habilitar tudo!
+    LApp.Use(Nest4D_Horse);
+    
+    // Suas rotas
+    LApp.Get('/users', GetUsers);
+    
+    WriteLn('Servidor rodando na porta 9000');
+    WriteLn('Endpoints automáticos:');
+    WriteLn('  GET /health   - Health check');
+    WriteLn('  GET /metrics  - Métricas da aplicação');
+    WriteLn('  GET /users    - Sua API');
+    
+    LApp.Listen(9000);
+  except
+    on E: Exception do
+      WriteLn('Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                        </div>
+                    </div>
+                    
+                    <div id="advanced" class="tab-content">
+                        <h4>Configuração Avançada</h4>
+                        <p>Para configuração personalizada com módulos:</p>
+                        <div class="code-example">
+                            <pre><code>program AdvancedExample;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  Horse,
+  nest4d,
+  nest4d.horse,
+  nest4d.modules,
+  app.module; // Seu módulo principal
+
+var
+  LApp: THorse;
+  LNest: TNest4D;
+  LConfig: TNest4DHorseConfig;
+begin
+  try
+    // Configuração personalizada
+    LConfig := TNest4DHorseConfig.Create;
+    LConfig.EnableMetrics := True;
+    LConfig.EnableLogging := True;
+    LConfig.EnableHealthCheck := True;
+    LConfig.EnableRequestTracing := True;
+    LConfig.LogLevel := llInfo;
+    
+    // Inicializar Nest4D com módulos
+    LNest := TNest4D.Create;
+    LNest.RegisterModule(TAppModule.Create);
+    
+    // Configurar Horse
+    LApp := THorse.Create;
+    LApp.Use(Nest4D_Horse(LConfig));
+    
+    // Aplicar configuração do Nest4D
+    LNest.ApplyToHorse(LApp);
+    
+    WriteLn('Servidor avançado rodando na porta 9000');
+    LApp.Listen(9000);
+  except
+    on E: Exception do
+      WriteLn('Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Verificação da Instalação</h2>
+                <p>Para verificar se tudo está funcionando corretamente:</p>
+                
+                <div class="verification-steps">
+                    <div class="verify-step">
+                        <h4>1. Compilação</h4>
+                        <p>Compile o projeto. Se não houver erros, a instalação está correta.</p>
+                    </div>
+                    
+                    <div class="verify-step">
+                        <h4>2. Teste os Endpoints (com Horse)</h4>
+                        <p>Execute a aplicação e teste os endpoints automáticos:</p>
+                        <ul>
+                            <li><code>GET http://localhost:9000/health</code> - Deve retornar status da aplicação</li>
+                            <li><code>GET http://localhost:9000/metrics</code> - Deve retornar métricas em formato texto</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="verify-step">
+                        <h4>3. Verificar Logs</h4>
+                        <p>Os logs devem aparecer no console automaticamente quando você fizer requisições.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Solução de Problemas</h2>
+                
+                <div class="troubleshooting">
+                    <div class="trouble-item">
+                        <h4>❌ Erro: "Unit not found"</h4>
+                        <div class="trouble-solution">
+                            <p><strong>Solução:</strong> Verifique se os diretórios do Nest4D estão no Library Path do Delphi.</p>
+                            <p><strong>Como verificar:</strong> Tools → Options → Environment Options → Delphi Options → Library → Library path</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trouble-item">
+                        <h4>❌ Erro: "Access violation"</h4>
+                        <div class="trouble-solution">
+                            <p><strong>Solução:</strong> Certifique-se de inicializar o TNest4D antes de usar seus serviços.</p>
+                            <p><strong>Dica:</strong> Use try/finally para garantir que os objetos sejam liberados corretamente.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trouble-item">
+                        <h4>❌ Endpoints /health e /metrics não funcionam</h4>
+                        <div class="trouble-solution">
+                            <p><strong>Solução:</strong> Certifique-se de chamar <code>LApp.Use(Nest4D_Horse)</code> antes de definir suas rotas.</p>
+                            <p><strong>Ordem correta:</strong> 1) Criar Horse, 2) Aplicar Nest4D, 3) Definir rotas, 4) Listen</p>
+                        </div>
+                    </div>
+                    
+                    <div class="trouble-item">
+                        <h4>❌ Logs não aparecem</h4>
+                        <div class="trouble-solution">
+                            <p><strong>Solução:</strong> Verifique se o nível de log está configurado corretamente.</p>
+                            <p><strong>Configuração:</strong> Use <code>LConfig.LogLevel := llDebug</code> para ver todos os logs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Próximos Passos</h2>
+                <p>Agora que o Nest4D está instalado, explore:</p>
+                
+                <div class="next-steps">
+                    <a href="first-steps.html" class="next-step-card">
+                        <h4>Primeiros Passos</h4>
+                        <p>Crie sua primeira aplicação com Nest4D</p>
+                    </a>
+                    
+                    <a href="modules.html" class="next-step-card">
+                        <h4>Módulos</h4>
+                        <p>Aprenda sobre a arquitetura modular</p>
+                    </a>
+                    
+                    <a href="examples.html" class="next-step-card">
+                        <h4>Exemplos</h4>
+                        <p>Veja exemplos práticos de uso</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Nest4D Framework. Licenciado sob GNU LGPL v3.</p>
+            <p>Criado por <a href="https://www.isaquepinheiro.com.br" target="_blank">Isaque Pinheiro</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function copyToClipboard(button) {
+            const code = button.previousElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = '#38a169';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+        
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+    </script>
+
+    <style>
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .req-icon {
+            font-size: 2rem;
+        }
+        
+        .req-content h4 {
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .req-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+        
+        .req-status.recommended {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
+        .req-status.optional {
+            background: #fef5e7;
+            color: #744210;
+        }
+        
+        .installation-step {
+            background: #f7fafc;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .installation-step h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .manual-steps {
+            margin: 30px 0;
+        }
+        
+        .manual-step {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        
+        .step-number {
+            background: #e53e3e;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .step-content h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .path-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .path-list li {
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+            background: #f7fafc;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        
+        .config-tabs {
+            margin: 30px 0;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            border-bottom-color: #e53e3e;
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #c53030;
+        }
+        
+        .verification-steps {
+            margin: 30px 0;
+        }
+        
+        .verify-step {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .verify-step h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .verify-step ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .verify-step code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .troubleshooting {
+            margin: 30px 0;
+        }
+        
+        .trouble-item {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .trouble-item h4 {
+            background: #fed7d7;
+            color: #742a2a;
+            padding: 15px 20px;
+            margin: 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .trouble-solution {
+            padding: 20px;
+        }
+        
+        .trouble-solution p {
+            margin-bottom: 10px;
+        }
+        
+        .trouble-solution strong {
+            color: #2d3748;
+        }
+        
+        .next-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .next-step-card {
+            display: block;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+        
+        .next-step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #e53e3e;
+        }
+        
+        .next-step-card h4 {
+            color: #e53e3e;
+            margin-bottom: 10px;
+        }
+    </style>
+</body>
+</html>

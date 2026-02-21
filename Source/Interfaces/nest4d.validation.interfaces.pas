@@ -1,18 +1,19 @@
-﻿unit nest4d.validation.interfaces;
+unit Nest4D.Validation.Interfaces;
 
 interface
 
 uses
-  Rtti,
-  Generics.Collections,
-  nest4d.request,
-  System.Evolution.ResultPair;
+  System.Rtti,
+  System.Generics.Collections,
+  Nest4D.Request,
+  Evolution4D.ResultPair;
 
 type
   TResultValidation = TResultPair<Boolean, String>;
+  TJsonMapped = TObjectDictionary<String, TList<TValue>>;
 
   IValidationArguments = interface
-    ['{008AE8DA-AA34-4881-9477-617A0CD9B158}']
+    ['{8B2F4E1A-9C3D-4F5E-A7B6-1D2E3F4A5B6C}']
     function TagName: String;
     function FieldName: String;
     function Values: TArray<TValue>;
@@ -22,12 +23,12 @@ type
   end;
 
   IValidatorConstraint = interface
-    ['{56130D3B-C251-4F85-9215-937B08B17A43}']
-    function Validate(const Value: TValue; const Args: IValidationArguments): TResultValidation;
+    ['{7A1B2C3D-4E5F-6A7B-8C9D-0E1F2A3B4C5D}']
+    function Validate(const Value: TValue; const Arguments: IValidationArguments): TResultValidation;
   end;
 
   IValidationInfo = interface
-    ['{8FCA8E1D-2244-46A2-9E7C-DB6F829EB6EE}']
+    ['{6F8E9D0C-1B2A-3948-5766-8594A3B2C1D0}']
     function _GetValidator: IValidatorConstraint;
     function _GetValidationArguments: IValidationArguments;
     function _GetValue: TValue;
@@ -36,26 +37,24 @@ type
     procedure _SetValue(const Value: TValue);
     //
     property Validator: IValidatorConstraint read _GetValidator write _SetValidator;
-    property Args: IValidationArguments read _GetValidationArguments write _SetValidationArguments;
+    property Arguments: IValidationArguments read _GetValidationArguments write _SetValidationArguments;
     property Value: TValue read _GetValue write _SetValue;
   end;
 
   IValidationPipe = interface
-    ['{9795C9EF-4FE3-422E-A237-C238E3935FD6}']
+    ['{5E7D6C4B-3A29-1847-6355-7483B2A1C0D9}']
     function IsMessages: Boolean;
     function BuildMessages: String;
     procedure Validate(const AClass: TClass; const ARequest: IRouteRequest);
+//    function Validate(const Value: TValue; const Metadata: IRouteRequest): TResultValidation;
   end;
-
-//  IValidatorOptions = interface
-//    ['{6E078A2B-4E6A-4B27-B80A-18EB9C0EF27F}']
-//    procedure SetOption(const APair: TPair<String, TValue>);
-//    function GetOption(const AKey: String): TValue;
-//  end;
 
 implementation
 
 end.
+
+
+
 
 
 

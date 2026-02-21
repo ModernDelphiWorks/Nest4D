@@ -4,9 +4,9 @@ interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.Isempty;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.Isempty;
 
 type
   IsemptyAttribute = class(IsAttribute)

@@ -1,11 +1,11 @@
-unit decorator.isarraymaxsize;
+unit Decorator.IsArrayMaxsize;
 
 interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types;
+  Decorator.IsBase,
+  Nest4D.Validation.types;
 
 type
   IsArrayMaxSizeAttribute = class(IsAttribute)

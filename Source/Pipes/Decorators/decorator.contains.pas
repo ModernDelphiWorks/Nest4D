@@ -25,15 +25,15 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit decorator.contains;
+unit Decorator.Contains;
 
 interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.contains;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.Contains;
 
 type
   ContainsAttribute = class(IsAttribute)
@@ -69,4 +69,9 @@ begin
 end;
 
 end.
+
+
+
+
+
 

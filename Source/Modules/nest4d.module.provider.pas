@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,20 +25,21 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit nest4d.module.provider;
+unit Nest4D.Module.Provider;
 
 interface
 
 uses
-  SysUtils,
-  System.Evolution.ResultPair,
-  nest4d.exception,
-  nest4d.tracker,
-  nest4d.route.param,
-  nest4d.module.abstract,
-  nest4d.route.abstract,
-  nest4d.listener,
-  nest4d.injector;
+  System.SysUtils,
+  Evolution4D.ResultPair,
+  Nest4D.Exception,
+  Nest4D.Tracker,
+  Nest4D.Route.Param,
+  Nest4D.Module.Abstract,
+  Nest4D.Route.Abstract,
+  Nest4D.Listener,
+  Nest4D.Injector,
+  Nest4D.Pool.Config;
 
 type
   TModuleProvider = class
@@ -46,6 +47,7 @@ type
     FAppInjector: PAppInjector;
     FTracker: TTracker;
     FListener: TAppListener;
+    FPoolConfig: TPoolConfig;
   public
     constructor Create;
     destructor Destroy; override;
@@ -76,12 +78,15 @@ begin
   FAppInjector := GAppInjector;
   if not Assigned(FAppInjector) then
     raise EAppInjector.Create;
+  FPoolConfig := TPoolConfig.Create;
 end;
 
 destructor TModuleProvider.Destroy;
 begin
   FAppInjector := nil;
   FTracker := nil;
+  if Assigned(FPoolConfig) then
+    FPoolConfig.Free;
   inherited;
 end;
 
@@ -120,13 +125,25 @@ begin
     LRoute := FTracker.DisposeModule(TRouteParam.Create(APath));
     if LRoute = nil then
     begin
-      LError := Format('Nest4d route (%s) not found!', [APath]);
+      LError := Format('Nest4D route (%s) not found!', [APath]);
       Result.Failure(LError);
       Exit;
     end;
     LModuleName := LRoute.ModuleInstance.ClassName;
-    // Shouldn't change to .Free, as it also needs to receive Nil.
-    FreeAndNil(LRoute.ModuleInstance);
+    
+    // Verificar se o módulo usa pool
+    if LRoute.UsePool and Assigned(FPoolConfig) then
+    begin
+      // Retornar módulo para o pool ao invés de destruir
+      FPoolConfig.ReturnModule(LModuleName, TModuleAbstract(LRoute.ModuleInstance));
+      LRoute.ModuleInstance := nil; // Limpar referência sem destruir
+    end
+    else
+    begin
+      // Shouldn't change to .Free, as it also needs to receive Nil.
+      FreeAndNil(LRoute.ModuleInstance);
+    end;
+    
     if Assigned(FListener) then
       FListener.Execute(FormatListenerMessage(Format('[InstanceLoader] %s dependencies finalized', [LModuleName])));
     Result.Success(True);
@@ -142,6 +159,8 @@ begin
 end;
 
 end.
+
+
 
 
 

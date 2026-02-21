@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,12 +25,12 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit nest4d.route;
+unit Nest4D.Route;
 
 interface
 
 uses
-  nest4d.route.abstract;
+  Nest4D.Route.Abstract;
 
 type
   TRoute = class(TRouteAbstract)
@@ -40,14 +40,14 @@ type
   public
     class function AddModule(const APath: String;
       const AModule: TClass;
-      const AMiddlewares: TMiddlewares): TRouteAbstract; override;
+      const AMiddlewares: TMiddlewares; const AUsePool: Boolean = False): TRouteAbstract; override;
   end;
 
   TRouteChild = class(TRoute)
   public
     class function AddModule(const APath: String;
       const AModule: TClass;
-      const AMiddlewares: TMiddlewares): TRouteAbstract; override;
+      const AMiddlewares: TMiddlewares; const AUsePool: Boolean = False): TRouteAbstract; override;
   end;
 
 implementation
@@ -56,26 +56,29 @@ implementation
 
 class function TRouteModule.AddModule(const APath: String;
   const AModule: TClass;
-  const AMiddlewares: TMiddlewares): TRouteAbstract;
+  const AMiddlewares: TMiddlewares; const AUsePool: Boolean): TRouteAbstract;
 begin
   inherited;
   Result := TRouteModule.Create(APath,
                                 AModule.ClassName,
                                 AModule,
-                                AMiddlewares);
+                                AMiddlewares,
+                                AUsePool);
 end;
 
 { TRouteChild }
 
 class function TRouteChild.AddModule(const APath: String;
   const AModule: TClass;
-  const AMiddlewares: TMiddlewares): TRouteAbstract;
+  const AMiddlewares: TMiddlewares; const AUsePool: Boolean): TRouteAbstract;
 begin
   inherited;
-  Result := TRouteChild.Create(APath, '', AModule, AMiddlewares);
+  Result := TRouteChild.Create(APath, '', AModule, AMiddlewares, AUsePool);
 end;
 
 end.
+
+
 
 
 

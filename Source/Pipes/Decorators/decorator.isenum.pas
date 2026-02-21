@@ -4,9 +4,9 @@ interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.isenum;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.isenum;
 
 type
   IsEnumAttribute = class(IsAttribute)

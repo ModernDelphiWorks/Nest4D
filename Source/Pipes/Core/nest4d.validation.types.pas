@@ -26,15 +26,15 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit nest4d.validation.types;
+unit Nest4D.Validation.Types;
 
 interface
 
 uses
-  Rtti;
+  System.Rtti;
 
 type
-  TValue = Rtti.TValue;
+  TValue = System.Rtti.TValue;
   TTransform = TClass;
   TValidation = TClass;
   TObjectType = TClass;

@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,14 +25,14 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit nest4d.bind.service;
+unit Nest4D.Bind.Service;
 
 interface
 
 uses
-  SysUtils,
-  System.Evolution.ResultPair,
-  nest4d.bind.provider;
+  System.SysUtils,
+  Evolution4D.ResultPair,
+  Nest4D.Bind.Provider;
 
 type
   TBindService = class
@@ -48,7 +48,7 @@ type
 implementation
 
 uses
-  nest4d.exception;
+  Nest4D.exception;
 
 { TBindService }
 
@@ -89,6 +89,8 @@ begin
 end;
 
 end.
+
+
 
 
 

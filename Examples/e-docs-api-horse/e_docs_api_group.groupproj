@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{EA639B2B-C9D5-4B13-A952-990DDD04DC48}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="e_docs_api.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="e_docs_api_swagger.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="e_docs_api">
+        <MSBuild Projects="e_docs_api.dproj"/>
+    </Target>
+    <Target Name="e_docs_api:Clean">
+        <MSBuild Projects="e_docs_api.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="e_docs_api:Make">
+        <MSBuild Projects="e_docs_api.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="e_docs_api_swagger">
+        <MSBuild Projects="e_docs_api_swagger.dproj"/>
+    </Target>
+    <Target Name="e_docs_api_swagger:Clean">
+        <MSBuild Projects="e_docs_api_swagger.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="e_docs_api_swagger:Make">
+        <MSBuild Projects="e_docs_api_swagger.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="e_docs_api;e_docs_api_swagger"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="e_docs_api:Clean;e_docs_api_swagger:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="e_docs_api:Make;e_docs_api_swagger:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

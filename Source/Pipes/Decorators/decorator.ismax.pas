@@ -4,9 +4,9 @@ interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.ismax;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.ismax;
 
 type
   IsMaxAttribute = class(IsAttribute)

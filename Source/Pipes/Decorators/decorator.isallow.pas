@@ -1,11 +1,11 @@
-unit decorator.isallow;
+unit Decorator.IsAllow;
 
 interface
 
 uses
-  SysUtils,
-  decorator.isbase,
-  nest4d.validation.types;
+  System.SysUtils,
+  Decorator.IsBase,
+  Nest4D.Validation.Types;
 
 type
   IsAllowAttribute = class(IsAttribute)

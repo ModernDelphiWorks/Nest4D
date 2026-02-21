@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
                    Copyright (c) 2023, Isaque Pinheiro
@@ -25,16 +25,16 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit validation.isString;
+unit Validation.IsString;
 
 interface
 
 uses
-  Rtti,
-  SysUtils,
-  StrUtils,
-  nest4d.validator.constraint,
-  nest4d.validation.interfaces;
+  System.Rtti,
+  System.SysUtils,
+  System.StrUtils,
+  Nest4D.Validator.Constraint,
+  Nest4D.Validation.Interfaces;
 
 type
   TIsString = class(TValidatorConstraint)

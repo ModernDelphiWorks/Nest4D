@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeiros Passos - Nest4D</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="../../../Images/mascote_nest4d.jfif">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../../../Images/mascote_nest4d.jfif" alt="Nest4D" class="logo">
+                <span class="logo-text">Nest4D</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="introduction.html">Introdução</a></li>
+                <li><a href="installation.html">Instalação</a></li>
+                <li><a href="fundamentals.html">Fundamentos</a></li>
+                <li><a href="examples.html">Exemplos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>Introdução</h3>
+                <ul>
+                    <li><a href="introduction.html">Visão Geral</a></li>
+                    <li><a href="philosophy.html">Filosofia</a></li>
+                    <li><a href="installation.html">Instalação</a></li>
+                    <li><a href="first-steps.html" class="active">Primeiros Passos</a></li>
+                </ul>
+                
+                <h3>Fundamentos</h3>
+                <ul>
+                    <li><a href="modules.html">Módulos</a></li>
+                    <li><a href="controllers.html">Controladores</a></li>
+                    <li><a href="providers.html">Provedores</a></li>
+                    <li><a href="middleware.html">Middleware</a></li>
+                    <li><a href="exception-filters.html">Filtros de Exceção</a></li>
+                    <li><a href="pipes.html">Pipes</a></li>
+                    <li><a href="guards.html">Guards</a></li>
+                    <li><a href="interceptors.html">Interceptors</a></li>
+                </ul>
+                
+                <h3>Técnicas</h3>
+                <ul>
+                    <li><a href="logging.html">Logging</a></li>
+                    <li><a href="metrics.html">Métricas</a></li>
+                    <li><a href="health-checks.html">Health Checks</a></li>
+                    <li><a href="caching.html">Cache</a></li>
+                    <li><a href="validation.html">Validação</a></li>
+                    <li><a href="configuration.html">Configuração</a></li>
+                    <li><a href="performance.html">Performance</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Primeiros Passos</h1>
+                <p class="lead">Crie sua primeira aplicação com Nest4D em poucos minutos.</p>
+            </div>
+
+            <section class="content-section">
+                <h2>Tutorial: API de Usuários</h2>
+                <p>Vamos criar uma API simples para gerenciar usuários, demonstrando os principais recursos do Nest4D.</p>
+                
+                <div class="tutorial-overview">
+                    <h4>O que você vai aprender:</h4>
+                    <ul class="learning-list">
+                        <li>✅ Configurar um projeto com Horse + Nest4D</li>
+                        <li>✅ Criar endpoints com monitoramento automático</li>
+                        <li>✅ Usar logging estruturado</li>
+                        <li>✅ Implementar validação de dados</li>
+                        <li>✅ Adicionar health checks</li>
+                        <li>✅ Visualizar métricas de performance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Passo 1: Criar o Projeto</h2>
+                <p>Crie um novo projeto console no Delphi:</p>
+                
+                <div class="step-content">
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="filename">UserAPI.dpr</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                        </div>
+                        <pre><code>program UserAPI;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  System.JSON,
+  Horse,
+  nest4d.horse;
+
+begin
+  try
+    WriteLn('=== User API com Nest4D ===');
+    WriteLn('Configurando servidor...');
+    
+    // Próximo passo: adicionar endpoints
+    
+    WriteLn('Pressione ENTER para sair');
+    ReadLn;
+  except
+    on E: Exception do
+      WriteLn('Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Passo 2: Configurar Horse + Nest4D</h2>
+                <p>Adicione a configuração básica do servidor:</p>
+                
+                <div class="step-content">
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="filename">UserAPI.dpr (atualizado)</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                        </div>
+                        <pre><code>program UserAPI;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  System.JSON,
+  Horse,
+  nest4d.horse;
+
+var
+  LApp: THorse;
+begin
+  try
+    WriteLn('=== User API com Nest4D ===');
+    WriteLn('Configurando servidor...');
+    
+    // Criar instância do Horse
+    LApp := THorse.Create;
+    
+    // 🚀 Uma linha para habilitar TUDO!
+    LApp.Use(Nest4D_Horse);
+    
+    WriteLn('Servidor configurado com sucesso!');
+    WriteLn('Recursos automáticos habilitados:');
+    WriteLn('  ✅ Logging estruturado');
+    WriteLn('  ✅ Métricas de performance');
+    WriteLn('  ✅ Health checks');
+    WriteLn('  ✅ Request tracing');
+    WriteLn('  ✅ Error handling');
+    WriteLn('');
+    WriteLn('Servidor rodando na porta 9000');
+    WriteLn('Endpoints automáticos:');
+    WriteLn('  GET http://localhost:9000/health');
+    WriteLn('  GET http://localhost:9000/metrics');
+    WriteLn('');
+    
+    LApp.Listen(9000);
+  except
+    on E: Exception do
+      WriteLn('Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h4>🎉 Parabéns!</h4>
+                        <p>Com apenas <strong>uma linha de código</strong> (<code>LApp.Use(Nest4D_Horse)</code>), você já tem:</p>
+                        <ul>
+                            <li>Logging automático de todas as requisições</li>
+                            <li>Coleta de métricas de performance</li>
+                            <li>Health check endpoint</li>
+                            <li>Tratamento automático de erros</li>
+                            <li>Request tracing com IDs únicos</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Passo 3: Criar Endpoints de Usuários</h2>
+                <p>Agora vamos adicionar endpoints para gerenciar usuários:</p>
+                
+                <div class="step-content">
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="filename">UserAPI.dpr (com endpoints)</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">📋 Copiar</button>
+                        </div>
+                        <pre><code>program UserAPI;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  System.JSON,
+  System.Generics.Collections,
+  Horse,
+  nest4d.horse;
+
+// Simulação de banco de dados em memória
+var
+  GUsers: TList<TJSONObject>;
+  GNextId: Integer = 1;
+
+// Endpoint: Listar todos os usuários
+procedure GetUsers(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+var
+  LResult: TJSONArray;
+  LUser: TJSONObject;
+begin
+  // O Nest4D automaticamente:
+  // - Cria log da requisição com timestamp
+  // - Gera ID único para rastreamento
+  // - Inicia coleta de métricas de tempo
+  
+  LResult := TJSONArray.Create;
+  try
+    for LUser in GUsers do
+      LResult.AddElement(LUser.Clone as TJSONObject);
+    
+    AResponse.Status(200)
+             .ContentType('application/json')
+             .Send(LResult.ToJSON);
+  finally
+    LResult.Free;
+  end;
+  
+  // O Nest4D automaticamente:
+  // - Registra tempo de resposta
+  // - Cria log de resposta com status
+  // - Atualiza métricas de throughput
+end;
+
+// Endpoint: Buscar usuário por ID
+procedure GetUser(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+var
+  LUserId: Integer;
+  LUser: TJSONObject;
+  LFound: Boolean;
+begin
+  LUserId := ARequest.Params['id'].ToInteger;
+  LFound := False;
+  
+  for LUser in GUsers do
+  begin
+    if LUser.GetValue<Integer>('id') = LUserId then
+    begin
+      AResponse.Status(200)
+               .ContentType('application/json')
+               .Send(LUser.ToJSON);
+      LFound := True;
+      Break;
+    end;
+  end;
+  
+  if not LFound then
+    AResponse.Status(404)
+             .ContentType('application/json')
+             .Send('{"error": "Usuário não encontrado"}');
+end;
+
+// Endpoint: Criar novo usuário
+procedure CreateUser(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+var
+  LBody: TJSONObject;
+  LNewUser: TJSONObject;
+  LName, LEmail: string;
+begin
+  try
+    LBody := TJSONObject.ParseJSONValue(ARequest.Body) as TJSONObject;
+    try
+      // Validação simples
+      if not LBody.TryGetValue('name', LName) or (LName.Trim = '') then
+      begin
+        AResponse.Status(400)
+                 .ContentType('application/json')
+                 .Send('{"error": "Nome é obrigatório"}');
+        Exit;
+      end;
+      
+      if not LBody.TryGetValue('email', LEmail) or (LEmail.Trim = '') then
+      begin
+        AResponse.Status(400)
+                 .ContentType('application/json')
+                 .Send('{"error": "Email é obrigatório"}');
+        Exit;
+      end;
+      
+      // Criar novo usuário
+      LNewUser := TJSONObject.Create;
+      LNewUser.AddPair('id', GNextId);
+      LNewUser.AddPair('name', LName.Trim);
+      LNewUser.AddPair('email', LEmail.Trim);
+      LNewUser.AddPair('created_at', FormatDateTime('yyyy-mm-dd hh:nn:ss', Now));
+      
+      GUsers.Add(LNewUser);
+      Inc(GNextId);
+      
+      AResponse.Status(201)
+               .ContentType('application/json')
+               .Send(LNewUser.ToJSON);
+    finally
+      LBody.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      // O Nest4D automaticamente captura e loga esta exceção
+      AResponse.Status(400)
+               .ContentType('application/json')
+               .Send('{"error": "JSON inválido"}');
+    end;
+  end;
+end;
+
+// Endpoint: Simular operação lenta (para demonstrar métricas)
+procedure SlowOperation(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+begin
+  // Simular processamento lento
+  Sleep(2000); // 2 segundos
+  
+  AResponse.Status(200)
+           .ContentType('application/json')
+           .Send('{"message": "Operação lenta concluída", "duration": "2s"}');
+end;
+
+var
+  LApp: THorse;
+begin
+  try
+    WriteLn('=== User API com Nest4D ===');
+    WriteLn('Inicializando...');
+    
+    // Inicializar "banco de dados" em memória
+    GUsers := TList<TJSONObject>.Create;
+    
+    // Adicionar alguns usuários de exemplo
+    GUsers.Add(TJSONObject.Create
+      .AddPair('id', 1)
+      .AddPair('name', 'João Silva')
+      .AddPair('email', 'joao@email.com')
+      .AddPair('created_at', '2023-01-01 10:00:00'));
+    
+    GUsers.Add(TJSONObject.Create
+      .AddPair('id', 2)
+      .AddPair('name', 'Maria Santos')
+      .AddPair('email', 'maria@email.com')
+      .AddPair('created_at', '2023-01-02 11:30:00'));
+    
+    GNextId := 3;
+    
+    // Configurar servidor
+    LApp := THorse.Create;
+    
+    // 🚀 Habilitar Nest4D (logging, métricas, health checks, etc.)
+    LApp.Use(Nest4D_Horse);
+    
+    // Definir rotas da API
+    LApp.Get('/users', GetUsers);           // GET /users - Listar usuários
+    LApp.Get('/users/:id', GetUser);        // GET /users/1 - Buscar usuário
+    LApp.Post('/users', CreateUser);        // POST /users - Criar usuário
+    LApp.Get('/slow', SlowOperation);       // GET /slow - Operação lenta
+    
+    WriteLn('✅ Servidor configurado com sucesso!');
+    WriteLn('');
+    WriteLn('🌐 API Endpoints:');
+    WriteLn('  GET    http://localhost:9000/users');
+    WriteLn('  GET    http://localhost:9000/users/:id');
+    WriteLn('  POST   http://localhost:9000/users');
+    WriteLn('  GET    http://localhost:9000/slow');
+    WriteLn('');
+    WriteLn('📊 Monitoramento (automático):');
+    WriteLn('  GET    http://localhost:9000/health');
+    WriteLn('  GET    http://localhost:9000/metrics');
+    WriteLn('');
+    WriteLn('🚀 Servidor rodando na porta 9000');
+    WriteLn('📝 Logs aparecerão automaticamente abaixo...');
+    WriteLn('');
+    
+    LApp.Listen(9000);
+  except
+    on E: Exception do
+      WriteLn('❌ Erro: ' + E.Message);
+  end;
+end.</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Passo 4: Testar a API</h2>
+                <p>Agora vamos testar nossa API e ver o Nest4D em ação:</p>
+                
+                <div class="testing-grid">
+                    <div class="test-card">
+                        <h4>1. Executar a Aplicação</h4>
+                        <p>Compile e execute o projeto. Você verá:</p>
+                        <div class="console-output">
+                            <pre>=== User API com Nest4D ===
+✅ Servidor configurado com sucesso!
+
+🌐 API Endpoints:
+  GET    http://localhost:9000/users
+  GET    http://localhost:9000/users/:id
+  POST   http://localhost:9000/users
+  GET    http://localhost:9000/slow
+
+📊 Monitoramento (automático):
+  GET    http://localhost:9000/health
+  GET    http://localhost:9000/metrics
+
+🚀 Servidor rodando na porta 9000
+📝 Logs aparecerão automaticamente abaixo...</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="test-card">
+                        <h4>2. Testar Health Check</h4>
+                        <p>Abra o navegador em:</p>
+                        <div class="url-box">
+                            <code>http://localhost:9000/health</code>
+                        </div>
+                        <p>Resposta esperada:</p>
+                        <div class="json-response">
+                            <pre>{
+  "status": "ok",
+  "timestamp": "2023-12-01T10:30:00Z",
+  "uptime": "00:01:23"
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="test-card">
+                        <h4>3. Listar Usuários</h4>
+                        <p>Teste o endpoint de usuários:</p>
+                        <div class="url-box">
+                            <code>http://localhost:9000/users</code>
+                        </div>
+                        <p>Você verá os logs automáticos no console:</p>
+                        <div class="console-output">
+                            <pre>[2023-12-01 10:30:15] INFO  [REQ-abc123] GET /users
+[2023-12-01 10:30:15] INFO  [REQ-abc123] Response: 200 (5ms)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="test-card">
+                        <h4>4. Criar Usuário</h4>
+                        <p>Use um cliente REST (Postman, Insomnia) para POST:</p>
+                        <div class="url-box">
+                            <code>POST http://localhost:9000/users</code>
+                        </div>
+                        <div class="json-request">
+                            <strong>Body (JSON):</strong>
+                            <pre>{
+  "name": "Pedro Costa",
+  "email": "pedro@email.com"
+}</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="test-card">
+                        <h4>5. Testar Operação Lenta</h4>
+                        <p>Para ver as métricas de performance:</p>
+                        <div class="url-box">
+                            <code>http://localhost:9000/slow</code>
+                        </div>
+                        <p>Observe o log de tempo de resposta:</p>
+                        <div class="console-output">
+                            <pre>[2023-12-01 10:32:10] INFO  [REQ-def456] GET /slow
+[2023-12-01 10:32:12] WARN  [REQ-def456] Slow request detected (2001ms)
+[2023-12-01 10:32:12] INFO  [REQ-def456] Response: 200 (2001ms)</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="test-card">
+                        <h4>6. Visualizar Métricas</h4>
+                        <p>Veja as métricas coletadas automaticamente:</p>
+                        <div class="url-box">
+                            <code>http://localhost:9000/metrics</code>
+                        </div>
+                        <p>Exemplo de métricas:</p>
+                        <div class="metrics-output">
+                            <pre># HELP http_requests_total Total HTTP requests
+http_requests_total{method="GET",status="200"} 5
+http_requests_total{method="POST",status="201"} 1
+
+# HELP http_request_duration_seconds HTTP request duration
+http_request_duration_seconds_sum 2.156
+http_request_duration_seconds_count 6</pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Passo 5: Entender o que Aconteceu</h2>
+                <p>Vamos analisar o que o Nest4D fez automaticamente:</p>
+                
+                <div class="features-explanation">
+                    <div class="feature-explain">
+                        <div class="feature-icon">📝</div>
+                        <div class="feature-content">
+                            <h4>Logging Estruturado</h4>
+                            <p>Cada requisição recebeu:</p>
+                            <ul>
+                                <li>ID único para rastreamento (REQ-abc123)</li>
+                                <li>Log de entrada com método e URL</li>
+                                <li>Log de saída com status e tempo</li>
+                                <li>Alertas para requisições lentas (>1s)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-explain">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-content">
+                            <h4>Métricas Automáticas</h4>
+                            <p>O sistema coletou:</p>
+                            <ul>
+                                <li>Contador de requisições por método/status</li>
+                                <li>Histograma de tempo de resposta</li>
+                                <li>Throughput (requisições por segundo)</li>
+                                <li>Taxa de erro</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-explain">
+                        <div class="feature-icon">🏥</div>
+                        <div class="feature-content">
+                            <h4>Health Checks</h4>
+                            <p>Endpoint automático que monitora:</p>
+                            <ul>
+                                <li>Status da aplicação</li>
+                                <li>Tempo de atividade (uptime)</li>
+                                <li>Timestamp da verificação</li>
+                                <li>Pronto para integração com monitoramento</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-explain">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-content">
+                            <h4>Error Handling</h4>
+                            <p>Tratamento automático de:</p>
+                            <ul>
+                                <li>Exceções não capturadas</li>
+                                <li>Logs detalhados de erros</li>
+                                <li>Stack trace para debugging</li>
+                                <li>Respostas HTTP apropriadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Próximos Passos</h2>
+                <p>Agora que você tem uma API funcionando, explore recursos mais avançados:</p>
+                
+                <div class="next-features">
+                    <div class="next-feature">
+                        <h4>🏗️ Arquitetura Modular</h4>
+                        <p>Organize seu código em módulos para projetos maiores.</p>
+                        <a href="modules.html" class="learn-more">Aprender sobre Módulos →</a>
+                    </div>
+                    
+                    <div class="next-feature">
+                        <h4>🔧 Validação Avançada</h4>
+                        <p>Use pipes para validação automática de dados de entrada.</p>
+                        <a href="pipes.html" class="learn-more">Aprender sobre Pipes →</a>
+                    </div>
+                    
+                    <div class="next-feature">
+                        <h4>🛡️ Autenticação</h4>
+                        <p>Implemente guards para controle de acesso.</p>
+                        <a href="guards.html" class="learn-more">Aprender sobre Guards →</a>
+                    </div>
+                    
+                    <div class="next-feature">
+                        <h4>🔍 Interceptors</h4>
+                        <p>Transforme requisições e respostas automaticamente.</p>
+                        <a href="interceptors.html" class="learn-more">Aprender sobre Interceptors →</a>
+                    </div>
+                    
+                    <div class="next-feature">
+                        <h4>💾 Cache</h4>
+                        <p>Melhore performance com sistema de cache integrado.</p>
+                        <a href="caching.html" class="learn-more">Aprender sobre Cache →</a>
+                    </div>
+                    
+                    <div class="next-feature">
+                        <h4>🌐 Microserviços</h4>
+                        <p>Construa arquiteturas distribuídas com RPC.</p>
+                        <a href="microservices.html" class="learn-more">Aprender sobre Microserviços →</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Resumo</h2>
+                <div class="summary-box">
+                    <h4>🎉 Parabéns! Você criou sua primeira API com Nest4D!</h4>
+                    <p>Em poucos passos, você:</p>
+                    <ul>
+                        <li>✅ Configurou um servidor HTTP com monitoramento completo</li>
+                        <li>✅ Criou endpoints RESTful funcionais</li>
+                        <li>✅ Obteve logging estruturado automático</li>
+                        <li>✅ Coletou métricas de performance</li>
+                        <li>✅ Implementou health checks</li>
+                        <li>✅ Adicionou tratamento de erros</li>
+                    </ul>
+                    <p><strong>Tudo isso com apenas uma linha de configuração!</strong></p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Nest4D Framework. Licenciado sob GNU LGPL v3.</p>
+            <p>Criado por <a href="https://www.isaquepinheiro.com.br" target="_blank">Isaque Pinheiro</a></p>
+        </div>
+    </footer>
+
+    <script>
+        function copyToClipboard(button) {
+            const code = button.parentElement.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '✅ Copiado!';
+                button.style.background = '#38a169';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                }, 2000);
+            });
+        }
+    </script>
+
+    <style>
+        .tutorial-overview {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .tutorial-overview h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .learning-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .learning-list li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .step-content {
+            margin: 20px 0;
+        }
+        
+        .code-header {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .filename {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        
+        .copy-btn {
+            background: #e53e3e;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            background: #c53030;
+        }
+        
+        .info-box {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-left: 4px solid #38a169;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-box h4 {
+            color: #22543d;
+            margin-bottom: 10px;
+        }
+        
+        .info-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .testing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .test-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .test-card h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e53e3e;
+        }
+        
+        .url-box {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+        
+        .console-output {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .json-response, .json-request {
+            margin: 10px 0;
+        }
+        
+        .json-response pre, .json-request pre {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+        
+        .metrics-output {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .features-explanation {
+            margin: 30px 0;
+        }
+        
+        .feature-explain {
+            display: flex;
+            gap: 20px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        
+        .feature-content h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .feature-content ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .next-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .next-feature {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .next-feature:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .next-feature h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .learn-more {
+            color: #e53e3e;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+        
+        .learn-more:hover {
+            color: #c53030;
+            transform: translateX(5px);
+        }
+        
+        .summary-box {
+            background: #f0fff4;
+            border: 1px solid #9ae6b4;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+        
+        .summary-box h4 {
+            color: #22543d;
+            margin-bottom: 15px;
+        }
+        
+        .summary-box ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .summary-box li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .testing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .next-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-explain {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,11 +1,11 @@
-unit decorator.isbase64;
+unit Decorator.IsBase64;
 
 interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types;
+  Decorator.IsBase,
+  Nest4D.Validation.types;
 
 type
   IsBase64Attribute = class(IsAttribute)

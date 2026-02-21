@@ -1,12 +1,12 @@
-unit decorator.isarray;
+unit Decorator.IsArray;
 
 interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.isarray;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.isarray;
 
 type
   IsArrayAttribute = class(IsAttribute)

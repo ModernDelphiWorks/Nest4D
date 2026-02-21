@@ -26,7 +26,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit validation.isinteger;
+unit Validation.IsInteger;
 
 interface
 
@@ -34,8 +34,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  nest4d.validator.constraint,
-  nest4d.validation.interfaces;
+  Nest4D.Validator.Constraint,
+  Nest4D.Validation.Interfaces;
 
 type
   TIsInteger = class(TValidatorConstraint)

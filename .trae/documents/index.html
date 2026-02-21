@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nest4D - Framework Web Moderno para Delphi</title>
+    <meta name="description" content="Framework web moderno para Delphi inspirado no NestJS. Arquitetura modular com injeção de dependência, interceptors, cache, logging e métricas.">
+    <link rel="icon" type="image/png" href="assets/images/nest4d_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="assets/images/nest4d_logo.png" alt="Nest4D Logo" class="logo">
+                <span class="brand-text">Nest4D</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#docs" class="nav-link">Docs</a>
+                <a href="#examples" class="nav-link">Examples</a>
+                <a href="#community" class="nav-link">Community</a>
+            </div>
+            <div class="nav-actions">
+                <a href="https://github.com/nest4d/nest4d" class="btn btn-outline">GitHub</a>
+                <a href="#get-started" class="btn btn-primary">Get Started</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="title-line">Framework Web</span>
+                        <span class="title-line gradient-text">Moderno para Delphi</span>
+                    </h1>
+                    <p class="hero-description">
+                        Inspirado no NestJS, o Nest4D traz arquitetura modular avançada para Delphi com 
+                        injeção de dependência, interceptors, cache inteligente, logging e métricas em tempo real.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#get-started" class="btn btn-primary btn-large">
+                            <span>Começar Agora</span>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                        <a href="#features" class="btn btn-secondary btn-large">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+                            </svg>
+                            <span>Ver Demo</span>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Sistemas Core</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label">Sistemas de Plugins</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">∞</span>
+                            <span class="stat-label">Possibilidades</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="code-window">
+                        <div class="window-header">
+                            <div class="window-controls">
+                                <span class="control close"></span>
+                                <span class="control minimize"></span>
+                                <span class="control maximize"></span>
+                            </div>
+                            <span class="window-title">main.pas</span>
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-pascal">program WebServer;
+
+uses
+  nest4d.core.async,
+  nest4d.horse.async,
+  nest4d.interceptor.async;
+
+begin
+  TNest4D
+    .Create
+    .UseInterceptor&lt;TLoggingInterceptor&gt;
+    .UseCache(TCacheConfig.Default)
+    .UseResilience(TResilienceConfig.HighAvailability)
+    .Listen(8080);
+end.</code></pre>
+                        </div>
+                    </div>
+                    <div class="floating-cards">
+                        <div class="feature-card card-1">
+                            <div class="card-icon">⚡</div>
+                            <span>High Performance</span>
+                        </div>
+                        <div class="feature-card card-2">
+                            <div class="card-icon">🔧</div>
+                            <span>Modular</span>
+                        </div>
+                        <div class="feature-card card-3">
+                            <div class="card-icon">🛡️</div>
+                            <span>Resilient</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Recursos Avançados</h2>
+                <p class="section-description">
+                    Construído com as melhores práticas de desenvolvimento moderno
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Arquitetura Modular</h3>
+                    <p>Sistema de módulos com injeção de dependência, interceptors e middleware para máxima flexibilidade.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>Sistema de Resiliência</h3>
+                    <p>Circuit Breaker, Retry Policy, Fallback Service e estratégias de alta disponibilidade integradas.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Performance Assíncrona</h3>
+                    <p>Thread pools otimizados, cache TTL inteligente e validação assíncrona para máxima performance.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Sistema de Plugins</h3>
+                    <p>Transform Pipes, Microserviços RPC e Message Bus extensíveis para qualquer necessidade.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Testes Integrados</h3>
+                    <p>Framework de testes completo com DUnitX, TestInsight e mocking para desenvolvimento TDD.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="9" cy="9" r="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Configuração Flexível</h3>
+                    <p>Sistema unificado de configuração com JSON, variáveis de ambiente e hot reload automático.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Arquitetura Robusta</h2>
+                <p class="section-description">
+                    Inspirada nas melhores práticas do NestJS, adaptada para o ecossistema Delphi
+                </p>
+            </div>
+            <div class="architecture-content">
+                <div class="architecture-diagram">
+                    <img src="assets/images/nest4d_fluxo.png" alt="Nest4D Architecture Flow" class="diagram-image">
+                </div>
+                <div class="architecture-features">
+                    <div class="arch-feature">
+                        <h4>🏗️ Camada de Apresentação</h4>
+                        <p>Controllers e Guards com integração Horse Framework</p>
+                    </div>
+                    <div class="arch-feature">
+                        <h4>⚙️ Camada de Negócio</h4>
+                        <p>Services com injeção de dependência e interceptors</p>
+                    </div>
+                    <div class="arch-feature">
+                        <h4>🔌 Camada de Plugins</h4>
+                        <p>Transform Pipes, RPC e Message Bus extensíveis</p>
+                    </div>
+                    <div class="arch-feature">
+                        <h4>💾 Camada de Dados</h4>
+                        <p>Cache inteligente e persistência configurável</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Examples Section -->
+    <section id="examples" class="examples">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Exemplos Práticos</h2>
+                <p class="section-description">
+                    Veja como é simples criar aplicações robustas com Nest4D
+                </p>
+            </div>
+            <div class="examples-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="basic">Básico</button>
+                    <button class="tab-btn" data-tab="resilience">Resiliência</button>
+                    <button class="tab-btn" data-tab="plugins">Plugins</button>
+                    <button class="tab-btn" data-tab="microservices">Microserviços</button>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="basic">
+                        <pre><code class="language-pascal">// Servidor básico com interceptors
+program BasicServer;
+
+uses
+  nest4d.core.async,
+  nest4d.horse.async,
+  nest4d.interceptor.async;
+
+begin
+  TNest4D
+    .Create
+    .UseInterceptor&lt;TLoggingInterceptor&gt;
+    .UseInterceptor&lt;TMetricsInterceptor&gt;
+    .Get('/api/users', 
+      procedure(Req: THorseRequest; Res: THorseResponse)
+      begin
+        Res.Send('{"users": []}');
+      end)
+    .Listen(8080);
+end.</code></pre>
+                    </div>
+                    <div class="tab-pane" id="resilience">
+                        <pre><code class="language-pascal">// Sistema de resiliência avançado
+uses
+  nest4d.resilience.async;
+
+[Retry(MaxAttempts: 3, BackoffType: Exponential)]
+[CircuitBreaker(FailureThreshold: 5, TimeoutMs: 30000)]
+[Fallback(FallbackMethod: 'GetCachedData')]
+function TUserService.GetUsers: TArray&lt;TUser&gt;;
+begin
+  // Implementação com proteção automática
+  Result := FRepository.GetAll;
+end;
+
+function TUserService.GetCachedData: TArray&lt;TUser&gt;;
+begin
+  Result := FCache.Get&lt;TArray&lt;TUser&gt;&gt;('users');
+end;</code></pre>
+                    </div>
+                    <div class="tab-pane" id="plugins">
+                        <pre><code class="language-pascal">// Transform Pipes personalizados
+type
+  TCustomJsonPipe = class(TTransformPipe)
+  public
+    function Transform(const AInput: string): TTransformResult; override;
+  end;
+
+function TCustomJsonPipe.Transform(const AInput: string): TTransformResult;
+begin
+  try
+    // Processamento customizado
+    Result := TTransformResult.Success(ProcessJson(AInput));
+  except
+    on E: Exception do
+      Result := TTransformResult.Failure(E.Message);
+  end;
+end;</code></pre>
+                    </div>
+                    <div class="tab-pane" id="microservices">
+                        <pre><code class="language-pascal">// Microserviços RPC
+uses
+  nest4d.rpc.interfaces,
+  nest4d.server.indy;
+
+var
+  Server: IRPCProviderServer;
+begin
+  Server := TRPCProviderServerIndy.Create;
+  
+  Server.PublishRPC('UserService', TUserServiceRPC);
+  Server.PublishRPC('OrderService', TOrderServiceRPC);
+  
+  Server.Start('localhost', 9090);
+  
+  WriteLn('RPC Server running on port 9090');
+  ReadLn;
+end;</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Junte-se à Comunidade</h2>
+                <p class="section-description">
+                    Faça parte da revolução do desenvolvimento web em Delphi
+                </p>
+            </div>
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>GitHub</h3>
+                    <p>Contribua com o projeto, reporte bugs e sugira melhorias</p>
+                    <a href="#" class="card-link">Acessar Repositório</a>
+                </div>
+                <div class="community-card">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Discord</h3>
+                    <p>Converse com outros desenvolvedores e tire suas dúvidas</p>
+                    <a href="#" class="card-link">Entrar no Discord</a>
+                </div>
+                <div class="community-card">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                            <polyline points="22,6 12,13 2,6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3>Newsletter</h3>
+                    <p>Receba atualizações sobre novas versões e recursos</p>
+                    <a href="#" class="card-link">Inscrever-se</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/images/nest4d_logo.png" alt="Nest4D Logo" class="footer-logo">
+                    <p>Framework web moderno para Delphi inspirado no NestJS</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Produto</h4>
+                        <a href="#features">Features</a>
+                        <a href="#architecture">Arquitetura</a>
+                        <a href="#examples">Exemplos</a>
+                        <a href="#docs">Documentação</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Comunidade</h4>
+                        <a href="#">GitHub</a>
+                        <a href="#">Discord</a>
+                        <a href="#">Newsletter</a>
+                        <a href="#">Blog</a>
+                    </div>
+                    <div class="link-group">
+                        <h4>Recursos</h4>
+                        <a href="#">Guia de Início</a>
+                        <a href="#">API Reference</a>
+                        <a href="#">Tutoriais</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Nest4D. Todos os direitos reservados.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="GitHub">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="LinkedIn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

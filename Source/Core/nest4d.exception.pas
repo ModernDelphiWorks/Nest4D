@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -23,21 +23,21 @@
   @created(01 Mai 2023)
   @author(Isaque Pinheiro <isaquesp@gmail.com>)
   @homepage(https://www.isaquepinheiro.com.br)
-  @documentation(https://nest4d-en.docs-br.com)
+  @documentation(https://Nest4D-en.docs-br.com)
 }
 
-unit nest4d.exception;
+unit Nest4D.Exception;
 
 interface
 
 uses
-  Windows,
-  Classes,
-  StrUtils,
-  SysUtils;
+  Winapi.Windows,
+  System.Classes,
+  System.StrUtils,
+  System.SysUtils;
 
 type
-  ENest4dException = class;
+  ENest4DException = class;
   EBadRequestException = class;
   EUnauthorizedException = class;
   ERouteNotFoundException = class;
@@ -45,15 +45,16 @@ type
   EBindNotFoundException = class;
   EModuleStartedException = class;
   EModuleStartedInitException = class;
+  ENest4DConfigException = class;
 
-  ENest4dException = class abstract (Exception)
+  ENest4DException = class abstract (Exception)
   public
     Status: integer;
     constructor Create(const Msg: String); overload; virtual;
     constructor CreateFmt(const Msg: String; const Args: array of const); virtual;
   end;
 
-  EBadRequestException = class(ENest4dException)
+  EBadRequestException = class(ENest4DException)
   public
     const cMSG_DEFAULT = 'Internal server error';
     const cMSG_DEFAULT_ARGS = 'Internal server error (%s)';
@@ -61,15 +62,15 @@ type
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  ERouteNotFoundException = class(ENest4dException)
+  ERouteNotFoundException = class(ENest4DException)
   public
-    const cMSG_DEFAULT = 'Nest4d route not found';
-    const cMSG_DEFAULT_ARGS = 'Nest4d route (%s) not found';
+    const cMSG_DEFAULT = 'Nest4D route not found';
+    const cMSG_DEFAULT_ARGS = 'Nest4D route (%s) not found';
     constructor Create(const Msg: String); overload; override;
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  EBindException = class(ENest4dException)
+  EBindException = class(ENest4DException)
   public
     const cMSG_DEFAULT = 'Class error occurred';
     const cMSG_DEFAULT_ARGS = 'Class [%s] error occurred';
@@ -77,7 +78,7 @@ type
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  EUnauthorizedException = class(ENest4dException)
+  EUnauthorizedException = class(ENest4DException)
   public
     const cMSG_DEFAULT = 'Access to route unauthorized';
     const cMSG_DEFAULT_ARGS = 'Access to route (%s) unauthorized';
@@ -85,7 +86,7 @@ type
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  EBindNotFoundException = class(ENest4dException)
+  EBindNotFoundException = class(ENest4DException)
   public
     const cMSG_DEFAULT = 'Class not found';
     const cMSG_DEFAULT_ARGS = 'Class [%s] not found';
@@ -93,7 +94,7 @@ type
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  EModuleStartedException = class(ENest4dException)
+  EModuleStartedException = class(ENest4DException)
   public
     const cMSG_DEFAULT = 'Module is already started';
     const cMSG_DEFAULT_ARGS = 'Module [%s] is already started';
@@ -101,10 +102,18 @@ type
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
 
-  EModuleStartedInitException = class(ENest4dException)
+  EModuleStartedInitException = class(ENest4DException)
   public
-    const cMSG_DEFAULT = 'Execute "Nest4d.Init(TAppModule.Create)" this is just an example';
-    const cMSG_DEFAULT_ARGS = 'Execute "Nest4d.Init(%s)" this is just an example';
+    const cMSG_DEFAULT = 'Execute "Nest4D.Init(TAppModule.Create)" this is just an example';
+    const cMSG_DEFAULT_ARGS = 'Execute "Nest4D.Init(%s)" this is just an example';
+    constructor Create(const Msg: String); overload; override;
+    constructor CreateFmt(const Msg: String; const Args: array of const); override;
+  end;
+
+  ENest4DConfigException = class(ENest4DException)
+  public
+    const cMSG_DEFAULT = 'Configuration error occurred';
+    const cMSG_DEFAULT_ARGS = 'Configuration error: %s';
     constructor Create(const Msg: String); overload; override;
     constructor CreateFmt(const Msg: String; const Args: array of const); override;
   end;
@@ -244,13 +253,13 @@ end;
 
 { EModularError }
 
-constructor ENest4dException.Create(const Msg: String);
+constructor ENest4DException.Create(const Msg: String);
 begin
   inherited Create(Msg);
   Status := 0;
 end;
 
-constructor ENest4dException.CreateFmt(const Msg: String;
+constructor ENest4DException.CreateFmt(const Msg: String;
   const Args: array of const);
 begin
   inherited CreateFmt(Msg, Args);
@@ -311,7 +320,29 @@ begin
   inherited Create('Provider not set. Call the method SetProvider before using UseRPC()');
 end;
 
+{ ENest4DConfigException }
+
+constructor ENest4DConfigException.Create(const Msg: String);
+var
+  LMsg: String;
+begin
+  LMsg := Format('{"statusCode": "500", "message": %s, "error": "Configuration Error"}', [cMSG_DEFAULT]);
+  inherited Create(ifThen(Msg = '', LMsg, Msg));
+  Status := 500;
+end;
+
+constructor ENest4DConfigException.CreateFmt(const Msg: String;
+  const Args: array of const);
+var
+  LMsg: String;
+begin
+  LMsg := ifThen(Msg = '', cMSG_DEFAULT_ARGS, Msg);
+  Create(Format(LMsg, Args));
+end;
+
 end.
+
+
 
 
 

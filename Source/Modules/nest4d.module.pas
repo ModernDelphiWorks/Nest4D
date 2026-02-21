@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -25,40 +25,40 @@
   @author(Site : https://www.isaquepinheiro.com.br)
 }
 
-unit nest4d.module;
+unit Nest4D.Module;
 
 interface
 
 uses
-  Rtti,
-  TypInfo,
-  SysUtils,
-  Generics.Collections,
-  injector4d.events,
-  nest4d.module.abstract,
-  nest4d.route.abstract,
-  nest4d.module.service,
-  nest4d.route.manager,
-  nest4d.route,
-  nest4d.route.handler,
-  nest4d.bind,
-  nest4d.injector,
-  nest4d.request,
-  nest4d.listener;
+  System.Rtti,
+  System.TypInfo,
+  System.SysUtils,
+  System.Generics.Collections,
+  Injector4D.Events,
+  Nest4D.Module.Abstract,
+  Nest4D.Route.Abstract,
+  Nest4D.Module.Service,
+  Nest4D.Route.Manager,
+  Nest4D.Route,
+  Nest4D.Route.Handler,
+  Nest4D.Bind,
+  Nest4D.Injector,
+  Nest4D.Request,
+  Nest4D.Listener;
 
 type
-  TValue = Rtti.TValue;
-  TRouteMiddleware = nest4d.route.abstract.TRouteMiddleware;
-  TRoute = nest4d.route.TRoute;
-  TRouteAbstract = nest4d.route.abstract.TRouteAbstract;
-  TRoutes = nest4d.module.abstract.TRoutes;
-  TBinds = nest4d.module.abstract.TBinds;
-  TImports = nest4d.module.abstract.TImports;
-  TExportedBinds = nest4d.module.abstract.TExportedBinds;
-  TConstructorParams = injector4d.events.TConstructorParams;
-  TRouteHandlers = nest4d.module.abstract.TRouteHandlers;
-  TRouteManager = nest4d.route.manager.TRouteManager;
-  IRouteRequest = nest4d.request.IRouteRequest;
+  TValue = System.Rtti.TValue;
+  TRouteMiddleware = Nest4D.Route.Abstract.TRouteMiddleware;
+  TRoute = Nest4D.Route.TRoute;
+  TRouteAbstract = Nest4D.Route.Abstract.TRouteAbstract;
+  TRoutes = Nest4D.Module.Abstract.TRoutes;
+  TBinds = Nest4D.Module.Abstract.TBinds;
+  TImports = Nest4D.Module.Abstract.TImports;
+  TExportedBinds = Nest4D.Module.Abstract.TExportedBinds;
+  TConstructorParams = Injector4D.Events.TConstructorParams;
+  TRouteHandlers = Nest4D.Module.Abstract.TRouteHandlers;
+  TRouteManager = Nest4D.Route.Manager.TRouteManager;
+  IRouteRequest = Nest4D.Request.IRouteRequest;
 
   TModule = class;
 
@@ -82,7 +82,7 @@ type
     function RouteHandlers: TRouteHandlers; override;
   end;
 
-  // S� para facilitar a sintaxe nos m�dulos
+  // S? para facilitar a sintaxe nos m?dulos
   Bind<T: class, constructor> = class(TBind<T>)
   end;
 
@@ -91,6 +91,10 @@ function RouteModule(const APath: String;
   const AModule: TModuleClass): TRouteModule; overload;
 function RouteModule(const APath: String; const AModule: TModuleClass;
   const AMiddlewares: TMiddlewares): TRouteModule; overload;
+function RouteModule(const APath: String; const AModule: TModuleClass;
+  const AUsePool: Boolean): TRouteModule; overload;
+function RouteModule(const APath: String; const AModule: TModuleClass;
+  const AMiddlewares: TMiddlewares; const AUsePool: Boolean): TRouteModule; overload;
 
 // RouteChild
 function RouteChild(const APath: String; const AModule: TModuleClass;
@@ -99,14 +103,14 @@ function RouteChild(const APath: String; const AModule: TModuleClass;
 implementation
 
 uses
-  System.Evolution.Objects,
-  nest4d.exception;
+  Evolution4D.Objects,
+  Nest4D.Exception;
 
 function RouteModule(const APath: String; const AModule: TModuleClass): TRouteModule;
 begin
   Result := nil;
   if Assigned(AModule) then
-    Result := TRouteModule.AddModule(APath, AModule, nil{, []}) as TRouteModule;
+    Result := TRouteModule.AddModule(APath, AModule, nil{, []}, False) as TRouteModule;
 end;
 
 function RouteModule(const APath: String; const AModule: TModuleClass;
@@ -116,7 +120,27 @@ begin
   if Assigned(AModule) then
     Result := TRouteModule.AddModule(APath,
                                      AModule,
-                                     AMiddlewares) as TRouteModule;
+                                     AMiddlewares,
+                                     False) as TRouteModule;
+end;
+
+function RouteModule(const APath: String; const AModule: TModuleClass;
+  const AUsePool: Boolean): TRouteModule;
+begin
+  Result := nil;
+  if Assigned(AModule) then
+    Result := TRouteModule.AddModule(APath, AModule, nil, AUsePool) as TRouteModule;
+end;
+
+function RouteModule(const APath: String; const AModule: TModuleClass;
+  const AMiddlewares: TMiddlewares; const AUsePool: Boolean): TRouteModule;
+begin
+  Result := nil;
+  if Assigned(AModule) then
+    Result := TRouteModule.AddModule(APath,
+                                     AModule,
+                                     AMiddlewares,
+                                     AUsePool) as TRouteModule;
 end;
 
 function RouteChild(const APath: String; const AModule: TModuleClass;
@@ -153,7 +177,7 @@ begin
   _DestroyRoutes;
   // Destroy o injector do modulo
   _DestroyInjector;
-  // Libera o servi�o
+  // Libera o servi?o
   FService.Free;
   // Libera os routehendlers
   FRouteHandlers.Free;
@@ -209,16 +233,18 @@ end;
 procedure TModule._RouteHandlers;
 var
   LHandler: TClass;
-  LObjectEx: TEvolutionObject;
+  LObject: TEvolutionObject;
 begin
-  LObjectEx := FAppInjector^.Get<TEvolutionObject>;
-  if not Assigned(LObjectEx) then
+  LObject := FAppInjector^.Get<TEvolutionObject>;
+  if not Assigned(LObject) then
     Exit;
   for LHandler in RouteHandlers do
-    FRouteHandlers.Add(TRouteHandler(LObjectEx.Factory(LHandler)));
+    FRouteHandlers.Add(TRouteHandler(LObject.Factory(LHandler)));
 end;
 
 end.
+
+
 
 
 

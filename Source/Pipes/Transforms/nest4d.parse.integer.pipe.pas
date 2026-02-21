@@ -25,17 +25,17 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit nest4d.parse.integer.pipe;
+unit Nest4D.Parse.Integer.Pipe;
 
 interface
 
 uses
-  Rtti,
-  SysUtils,
-  StrUtils,
-  Generics.Collections,
-  nest4d.transform.pipe,
-  nest4d.transform.interfaces;
+  System.Rtti,
+  System.SysUtils,
+  System.StrUtils,
+  System.Generics.Collections,
+  Nest4D.Transform.Pipe,
+  Nest4D.Transform.Interfaces;
 
 
 type
@@ -66,6 +66,9 @@ begin
 end;
 
 end.
+
+
+
 
 
 

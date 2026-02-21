@@ -25,7 +25,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit validation.isin;
+unit Validation.IsIn;
 
 interface
 
@@ -33,8 +33,8 @@ uses
   Rtti,
   SysUtils,
   StrUtils,
-  validator.constraint,
-  validation.interfaces;
+  Nest4D.Validator.Constraint,
+  Nest4D.Validation.Interfaces;
 
 type
   TIsin = class(TValidatorConstraint)
@@ -53,10 +53,10 @@ var
   LMessage: String;
 begin
   Result.Success(False);
-  
+
   // TODO: Implement validation logic for isin
   // This is a template - implement the actual validation logic
-  
+
   if not Result.ValueSuccess then
   begin
     LMessage := IfThen(Args.Message = '',
@@ -70,3 +70,5 @@ begin
 end;
 
 end.
+
+

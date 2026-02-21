@@ -4,8 +4,8 @@ interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types;
+  Decorator.IsBase,
+  Nest4D.Validation.types;
 
 type
   IsISO8601Attribute = class(IsAttribute)

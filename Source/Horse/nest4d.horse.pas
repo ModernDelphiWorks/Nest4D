@@ -1,4 +1,4 @@
-﻿{
+{
              Nest4D - Development Framework for Delphi
 
 
@@ -6,15 +6,15 @@
                           All rights reserved.
 
                     GNU Lesser General Public License
-                      Vers�o 3, 29 de junho de 2007
+                      Vers?o 3, 29 de junho de 2007
 
        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-       A todos � permitido copiar e distribuir c�pias deste documento de
-       licen�a, mas mud�-lo n�o � permitido.
+       A todos ? permitido copiar e distribuir c?pias deste documento de
+       licen?a, mas mud?-lo n?o ? permitido.
 
-       Esta vers�o da GNU Lesser General Public License incorpora
-       os termos e condi��es da vers�o 3 da GNU General Public License
-       Licen�a, complementado pelas permiss�es adicionais listadas no
+       Esta vers?o da GNU Lesser General Public License incorpora
+       os termos e condi??es da vers?o 3 da GNU General Public License
+       Licen?a, complementado pelas permiss?es adicionais listadas no
        arquivo LICENSE na pasta principal.
 }
 
@@ -23,28 +23,27 @@
   @created(01 Mai 2023)
   @author(Isaque Pinheiro <isaquesp@gmail.com>)
   @homepage(https://www.isaquepinheiro.com.br)
-  @documentation(https://nest4d-en.docs-br.com)
+  @documentation(https://Nest4D-en.docs-br.com)
 }
 
-unit nest4d.horse;
+unit Nest4D.Horse;
 
 interface
 
 uses
-  TypInfo,
-  SysUtils,
-  StrUtils,
-  Classes,
-  NetEncoding,
-  Web.HTTPApp,
-  System.Evolution.ResultPair,
+  System.TypInfo,
+  System.SysUtils,
+  System.StrUtils,
+  System.Classes,
+  System.NetEncoding,
+  Evolution4D.ResultPair,
   Horse,
-  nest4d,
-  nest4d.module,
-  nest4d.exception,
-  nest4d.request,
-  nest4d.route.parse,
-  nest4d.validation.interfaces;
+  Nest4D,
+  Nest4D.Module,
+  Nest4D.Exception,
+  Nest4D.Request,
+  Nest4D.Route.Parse,
+  Nest4D.Validation.Interfaces;
 
 function _ResolverRouteRequest(const Req: THorseRequest): IRouteRequest;
 function Nest4D_Horse(const AppModule: TModule): THorseCallback; overload;
@@ -52,6 +51,9 @@ function Nest4D_Horse(const ACharset: String): THorseCallback; overload;
 procedure Middleware(Req: THorseRequest; Res: THorseResponse; Next: TNextProc);
 
 implementation
+
+uses
+  Web.HTTPApp;
 
 const
   C_AUTHORIZATION = 'Authorization';
@@ -77,7 +79,8 @@ begin
   // Treatment to ignore Swagger documentation routes in this middleware.
   if (Pos(LowerCase('swagger'), LowerCase(Req.RawWebRequest.PathInfo)) > 0) or
      (Pos(LowerCase('favicon.ico'), LowerCase(Req.RawWebRequest.PathInfo)) > 0) then
-    exit;
+    Exit;
+
   // Route initialization and bindings.
   if (Req.MethodType in [mtGet, mtPost, mtPut, mtPatch, mtDelete]) then
   begin
@@ -91,9 +94,9 @@ begin
       end,
       procedure (Error: Exception)
       begin
-        if Error is ENest4dException then
+        if Error is ENest4DException then
         begin
-          Res.Send(Error.Message).Status(ENest4dException(Error)
+          Res.Send(Error.Message).Status(ENest4DException(Error)
                                  .Status).ContentType(C_CONTENT_TYPE);
           Error.Free;
           raise EHorseCallbackInterrupted.Create;
@@ -152,6 +155,9 @@ begin
 end;
 
 end.
+
+
+
 
 
 

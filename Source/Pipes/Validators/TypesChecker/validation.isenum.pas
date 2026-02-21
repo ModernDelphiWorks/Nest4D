@@ -26,7 +26,7 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit validation.isenum;
+unit Validation.IsEnum;
 
 interface
 
@@ -35,8 +35,8 @@ uses
   TypInfo,
   SysUtils,
   StrUtils,
-  nest4d.validator.constraint,
-  nest4d.validation.interfaces;
+  Nest4D.Validator.Constraint,
+  Nest4D.Validation.Interfaces;
 
 type
   TIsEnum = class(TValidatorConstraint)

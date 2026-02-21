@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introdução - Nest4D</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="../../../Images/mascote_nest4d.jfif">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="../../../Images/mascote_nest4d.jfif" alt="Nest4D" class="logo">
+                <span class="logo-text">Nest4D</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="introduction.html">Introdução</a></li>
+                <li><a href="installation.html">Instalação</a></li>
+                <li><a href="fundamentals.html">Fundamentos</a></li>
+                <li><a href="examples.html">Exemplos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>Introdução</h3>
+                <ul>
+                    <li><a href="introduction.html" class="active">Visão Geral</a></li>
+                    <li><a href="philosophy.html">Filosofia</a></li>
+                    <li><a href="installation.html">Instalação</a></li>
+                    <li><a href="first-steps.html">Primeiros Passos</a></li>
+                </ul>
+                
+                <h3>Fundamentos</h3>
+                <ul>
+                    <li><a href="modules.html">Módulos</a></li>
+                    <li><a href="controllers.html">Controladores</a></li>
+                    <li><a href="providers.html">Provedores</a></li>
+                    <li><a href="middleware.html">Middleware</a></li>
+                    <li><a href="exception-filters.html">Filtros de Exceção</a></li>
+                    <li><a href="pipes.html">Pipes</a></li>
+                    <li><a href="guards.html">Guards</a></li>
+                    <li><a href="interceptors.html">Interceptors</a></li>
+                </ul>
+                
+                <h3>Técnicas</h3>
+                <ul>
+                    <li><a href="logging.html">Logging</a></li>
+                    <li><a href="metrics.html">Métricas</a></li>
+                    <li><a href="health-checks.html">Health Checks</a></li>
+                    <li><a href="caching.html">Cache</a></li>
+                    <li><a href="validation.html">Validação</a></li>
+                    <li><a href="configuration.html">Configuração</a></li>
+                    <li><a href="performance.html">Performance</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="content-header">
+                <h1>Introdução</h1>
+                <p class="lead">Nest4D é um framework para construir aplicações Delphi eficientes, escaláveis e bem estruturadas.</p>
+            </div>
+
+            <section class="content-section">
+                <h2>O que é o Nest4D?</h2>
+                <p>Nest4D é um framework de desenvolvimento para Delphi que utiliza conceitos modernos de arquitetura de software. Ele é <strong>fortemente inspirado no NestJS</strong> e no Angular, trazendo para o ecossistema Delphi conceitos como:</p>
+                
+                <ul class="feature-list">
+                    <li><strong>Arquitetura Modular:</strong> Organização do código em módulos independentes e reutilizáveis</li>
+                    <li><strong>Injeção de Dependência:</strong> Sistema robusto para gerenciamento de dependências</li>
+                    <li><strong>Decorators:</strong> Metadados declarativos para configuração de comportamentos</li>
+                    <li><strong>Middleware:</strong> Pipeline de processamento de requisições</li>
+                    <li><strong>Interceptors:</strong> Interceptação e transformação de requisições/respostas</li>
+                    <li><strong>Guards:</strong> Controle de acesso e autorização</li>
+                    <li><strong>Pipes:</strong> Validação e transformação de dados</li>
+                </ul>
+
+                <div class="info-box">
+                    <h4>💡 Por que Nest4D?</h4>
+                    <p>O Nest4D resolve o principal problema de <strong>arquitetura</strong> em aplicações Delphi, fornecendo uma estrutura sólida que permite aos desenvolvedores e equipes criar aplicações altamente testáveis, escaláveis, fracamente acopladas e facilmente mantíveis.</p>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Principais Características</h2>
+                
+                <div class="characteristics-grid">
+                    <div class="char-card">
+                        <h3>🏗️ Arquitetura Modular</h3>
+                        <p>Sistema de módulos que permite organizar a aplicação em componentes independentes, facilitando manutenção e testes.</p>
+                    </div>
+                    
+                    <div class="char-card">
+                        <h3>🔧 Injeção de Dependência</h3>
+                        <p>Container IoC integrado que gerencia automaticamente as dependências entre componentes.</p>
+                    </div>
+                    
+                    <div class="char-card">
+                        <h3>📊 Monitoramento Integrado</h3>
+                        <p>Sistema completo de logging estruturado, métricas, health checks e rastreamento de performance.</p>
+                    </div>
+                    
+                    <div class="char-card">
+                        <h3>🚀 Integração com Horse</h3>
+                        <p>Middleware aprimorado para Horse com configuração automática e recursos avançados de monitoramento.</p>
+                    </div>
+                    
+                    <div class="char-card">
+                        <h3>🔍 Validação Avançada</h3>
+                        <p>Sistema extensivo de pipes e decorators para validação e transformação de dados de entrada.</p>
+                    </div>
+                    
+                    <div class="char-card">
+                        <h3>🌐 Microserviços</h3>
+                        <p>Suporte nativo para RPC e message bus, facilitando arquiteturas de microserviços.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Exemplo Básico</h2>
+                <p>Aqui está um exemplo simples de como usar o Nest4D com Horse:</p>
+                
+                <div class="code-example">
+                    <pre><code>program SimpleExample;
+
+{$APPTYPE CONSOLE}
+
+uses
+  System.SysUtils,
+  Horse,
+  nest4d.horse;
+
+// Endpoint simples
+procedure GetHello(ARequest: THorseRequest; AResponse: THorseResponse; ANext: TProc);
+begin
+  // O sistema automaticamente:
+  // - Cria logs da requisição
+  // - Coleta métricas de performance
+  // - Gera ID único para a requisição
+  // - Trata exceções automaticamente
+  
+  AResponse.Status(200)
+           .ContentType('application/json')
+           .Send('{"message": "Hello, Nest4D!"}');
+end;
+
+var
+  LApp: THorse;
+begin
+  LApp := THorse.Create;
+  
+  // Configuração em uma linha - tudo automático!
+  LApp.Use(Nest4D_Horse);
+  
+  // Suas rotas normais - o monitoramento é automático
+  LApp.Get('/hello', GetHello);
+  
+  WriteLn('Server running on port 9000');
+  WriteLn('Monitoring endpoints:');
+  WriteLn('  GET /health   - Health check');
+  WriteLn('  GET /metrics  - Application metrics');
+  
+  LApp.Listen(9000);
+end.</code></pre>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Recursos Automáticos</h2>
+                <p>Ao usar o Nest4D, você obtém automaticamente:</p>
+                
+                <div class="auto-features">
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        <div>
+                            <strong>Request/Response Logging</strong>
+                            <p>Logs estruturados de todas as requisições com contexto completo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        <div>
+                            <strong>Performance Metrics</strong>
+                            <p>Coleta automática de métricas de tempo de resposta, throughput e erros</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        <div>
+                            <strong>Error Tracking</strong>
+                            <p>Captura e logging automático de exceções com stack trace</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        <div>
+                            <strong>Health Checks</strong>
+                            <p>Endpoint automático de health check para monitoramento</p>
+                        </div>
+                    </div>
+                    
+                    <div class="auto-feature">
+                        <span class="check">✓</span>
+                        <div>
+                            <strong>Request Tracing</strong>
+                            <p>ID único para cada requisição facilitando debugging</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Próximos Passos</h2>
+                <p>Agora que você conhece o Nest4D, explore os próximos tópicos:</p>
+                
+                <div class="next-steps">
+                    <a href="philosophy.html" class="next-step-card">
+                        <h4>Filosofia</h4>
+                        <p>Entenda os princípios e conceitos por trás do Nest4D</p>
+                    </a>
+                    
+                    <a href="installation.html" class="next-step-card">
+                        <h4>Instalação</h4>
+                        <p>Configure o Nest4D em seu projeto Delphi</p>
+                    </a>
+                    
+                    <a href="first-steps.html" class="next-step-card">
+                        <h4>Primeiros Passos</h4>
+                        <p>Crie sua primeira aplicação com Nest4D</p>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2023 Nest4D Framework. Licenciado sob GNU LGPL v3.</p>
+            <p>Criado por <a href="https://www.isaquepinheiro.com.br" target="_blank">Isaque Pinheiro</a></p>
+        </div>
+    </footer>
+
+    <style>
+        .content-header {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .content-header h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .lead {
+            font-size: 1.25rem;
+            color: #718096;
+        }
+        
+        .content-section {
+            margin-bottom: 50px;
+        }
+        
+        .content-section h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .feature-list {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .info-box {
+            background: #f7fafc;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .info-box h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .characteristics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .char-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        .char-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .char-card h3 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .auto-features {
+            margin: 30px 0;
+        }
+        
+        .auto-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .check {
+            color: #38a169;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .next-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .next-step-card {
+            display: block;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+        }
+        
+        .next-step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #e53e3e;
+        }
+        
+        .next-step-card h4 {
+            color: #e53e3e;
+            margin-bottom: 10px;
+        }
+        
+        .active {
+            background: #f7fafc !important;
+            color: #e53e3e !important;
+        }
+    </style>
+</body>
+</html>

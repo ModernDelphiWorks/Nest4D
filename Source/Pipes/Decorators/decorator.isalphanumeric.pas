@@ -25,15 +25,15 @@
   @documentation(https://nest4d-en.docs-br.com)
 }
 
-unit decorator.isalphanumeric;
+unit Decorator.IsAlphaNumeric;
 
 interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.isalphanumeric;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.isalphanumeric;
 
 type
   IsAlphaNumericAttribute = class(IsAttribute)

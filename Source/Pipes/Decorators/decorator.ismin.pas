@@ -4,9 +4,9 @@ interface
 
 uses
   SysUtils,
-  decorator.isbase,
-  nest4d.validation.types,
-  validation.ismin;
+  Decorator.IsBase,
+  Nest4D.Validation.types,
+  Validation.ismin;
 
 type
   IsMinAttribute = class(IsAttribute)
