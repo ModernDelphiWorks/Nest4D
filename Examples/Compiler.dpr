@@ -39,7 +39,7 @@ uses
   Module in '..\Source\Modules\Module.pas',
   Module.Provider in '..\Source\Modules\Module.Provider.pas',
   Module.Service in '..\Source\Modules\Module.Service.pas',
-  Dest in '..\Source\Dest.pas',
+  Nidus in '..\Source\Nidus.pas',
   Transform.Arguments in '..\Source\Pipes\Core\Transform.Arguments.pas',
   Transform.Pipe in '..\Source\Pipes\Core\Transform.Pipe.pas',
   Validation.Arguments in '..\Source\Pipes\Core\Validation.Arguments.pas',

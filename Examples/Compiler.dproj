@@ -123,7 +123,7 @@
         <DCCReference Include="..\Source\Modules\Module.pas"/>
         <DCCReference Include="..\Source\Modules\Module.Provider.pas"/>
         <DCCReference Include="..\Source\Modules\Module.Service.pas"/>
-        <DCCReference Include="..\Source\Dest.pas"/>
+        <DCCReference Include="..\Source\Nidus.pas"/>
         <DCCReference Include="..\Source\Pipes\Core\Transform.Arguments.pas"/>
         <DCCReference Include="..\Source\Pipes\Core\Transform.Pipe.pas"/>
         <DCCReference Include="..\Source\Pipes\Core\Validation.Arguments.pas"/>
