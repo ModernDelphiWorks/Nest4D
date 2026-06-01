@@ -31,7 +31,7 @@ jobs:
       matrix:
         language: ['python', 'javascript-typescript', 'csharp']  # <TODO: per-project>
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
       - uses: github/codeql-action/init@v3
         with:
@@ -48,7 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/dependency-review-action@v4
         with:
           fail-on-severity: high  # blocks high + critical
@@ -88,7 +88,7 @@ jobs:
       matrix:
         stack: [python, csharp, typescript, rust, flutter]  # <TODO: per-project>
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
 
       - name: Setup Python
@@ -161,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.repository.fork == false }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: { fetch-depth: 0 }
       - name: Check token
         id: tok
