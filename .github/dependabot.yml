@@ -1,0 +1,54 @@
+# Dependabot configuration — copy to .github/dependabot.yml in target project.
+# Docs: https://docs.github.com/en/code-security/dependabot
+#
+# Native ecosystems used here: pip, cargo, nuget, npm, gradle, maven, docker, github-actions.
+# NOT natively supported: pub (Dart/Flutter), delphi — handle manually or via 3rd-party action.
+# <TODO: per-project> trim entries to match Active stacks. Remove or comment-out unused blocks.
+
+version: 2
+updates:
+  # GitHub Actions used by quality.yml itself
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "weekly" }
+    open-pull-requests-limit: 5
+
+  # Python / FastAPI
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule: { interval: "weekly" }
+    open-pull-requests-limit: 5
+    groups:
+      python-minor-patch:
+        update-types: ["minor", "patch"]
+
+  # Rust
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule: { interval: "weekly" }
+    open-pull-requests-limit: 5
+
+  # C# / .NET
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule: { interval: "weekly" }
+    open-pull-requests-limit: 5
+
+  # Node / TypeScript
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule: { interval: "weekly" }
+    open-pull-requests-limit: 5
+    groups:
+      js-minor-patch:
+        update-types: ["minor", "patch"]
+
+  # Docker base images (uncomment if Dockerfile present)
+  # - package-ecosystem: "docker"
+  #   directory: "/"
+  #   schedule: { interval: "weekly" }
+
+  # NOT SUPPORTED natively by Dependabot:
+  #   - pub (Dart / Flutter): use https://github.com/marketplace/actions/flutter-dependabot or run
+  #     `flutter pub outdated` on a scheduled workflow.
+  #   - delphi: no package manager registered; track Boss / GetIt manually.

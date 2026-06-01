@@ -45,7 +45,7 @@ begin
   Result.Success(False);
   if Value.Kind in [tkString, tkLString, tkWString, tkUString] then
   begin
-    if TEvolutionRegEx.IsMatch(Value.ToString, '^[A-Za-z]+$') then
+    if TModernRegEx.IsMatch(Value.ToString, '^[A-Za-z]+$') then
       Result.Success(True);
   end;
   if not Result.ValueSuccess then

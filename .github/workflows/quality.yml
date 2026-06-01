@@ -1,0 +1,198 @@
+name: Quality Gates
+
+# Heavy quality checks for the release PR (develop / work branch → main).
+# Fast per-task gates live in /verify (local). See verify-tools-matrix.md.
+# /release watches this workflow via `gh pr checks --watch`.
+#
+# Copy to .github/workflows/quality.yml in the target project.
+# Adjust per-project items marked <TODO: per-project>.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+  security-events: write
+  actions: read
+
+jobs:
+  # -------- CodeQL: semantic security + quality scan --------
+  # Supported: python, javascript-typescript, csharp, ruby, go, java-kotlin, swift, rust.
+  # Not supported: delphi, dart/flutter — job auto-skips when matrix is empty.
+  # <TODO: per-project> set the language list to match Active stacks in .claude/SKILL.md.
+  codeql-analysis:
+    name: CodeQL (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['python', 'javascript-typescript', 'csharp']  # <TODO: per-project>
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-and-quality
+      - uses: github/codeql-action/autobuild@v3
+      - uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+
+  # -------- Dependency Review: blocks new vulnerable deps in the PR --------
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high  # blocks high + critical
+          comment-summary-in-pr: on-failure
+
+  # -------- Secret Scanning: documents repo-level enablement --------
+  # Real scanning runs at the repo settings level (GH Advanced Security or public repo).
+  # This job only verifies the alerts API is reachable — it does not scan content.
+  # <TODO: per-project> enable Settings → Code security → Secret scanning.
+  secret-scanning-check:
+    name: Secret Scanning Status
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify secret-scanning API reachable
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          status=$(gh api -i "repos/${{ github.repository }}/secret-scanning/alerts" --silent -q '.' 2>&1 | head -1 || true)
+          if echo "$status" | grep -q "404"; then
+            echo "::warning::Secret scanning not enabled. Enable at Settings → Code security."
+          else
+            echo "Secret scanning API reachable."
+          fi
+
+  # -------- Mutation testing: per-stack matrix --------
+  # Heavy. Same tools as /audit but on full PR diff against main.
+  # See audit-tools-matrix.md. Delphi has no mature OSS tool — skipped by design.
+  # <TODO: per-project> trim the stack list to match Active stacks.
+  mutation-testing-ci:
+    name: Mutation (${{ matrix.stack }})
+    runs-on: ubuntu-latest
+    needs: [codeql-analysis]
+    if: ${{ !cancelled() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        stack: [python, csharp, typescript, rust, flutter]  # <TODO: per-project>
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - name: Setup Python
+        if: matrix.stack == 'python'
+        uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Run mutmut
+        if: matrix.stack == 'python'
+        run: |
+          pip install -r requirements.txt mutmut pytest
+          mutmut run --paths-to-mutate=src/ || true
+          mutmut junitxml > mutation-results.xml
+
+      - name: Setup .NET
+        if: matrix.stack == 'csharp'
+        uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '8.x' }
+      - name: Run Stryker.NET
+        if: matrix.stack == 'csharp'
+        run: |
+          dotnet tool install -g dotnet-stryker
+          dotnet stryker --reporter html --reporter json
+
+      - name: Setup Node
+        if: matrix.stack == 'typescript'
+        uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Run Stryker (TS)
+        if: matrix.stack == 'typescript'
+        run: |
+          npm ci
+          npx stryker run
+
+      - name: Setup Rust
+        if: matrix.stack == 'rust'
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run cargo-mutants
+        if: matrix.stack == 'rust'
+        run: |
+          cargo install cargo-mutants --locked
+          cargo mutants --no-shuffle -j 2
+
+      - name: Setup Flutter
+        if: matrix.stack == 'flutter'
+        uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - name: Run mutation_test
+        if: matrix.stack == 'flutter'
+        run: |
+          flutter pub get
+          dart pub global activate mutation_test
+          mutation_test -o mutation-report
+
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-${{ matrix.stack }}
+          path: |
+            mutation-results.xml
+            StrykerOutput/
+            mutation-report/
+            mutants.out/
+          if-no-files-found: ignore
+
+  # -------- SonarCloud: optional, runs only if SONAR_TOKEN is set --------
+  # <TODO: per-project> add SONAR_TOKEN secret + sonar-project.properties at repo root.
+  sonar-cloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork == false }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Check token
+        id: tok
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [ -z "${SONAR_TOKEN:-}" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "SONAR_TOKEN not set — skipping."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: SonarCloud Scan
+        if: steps.tok.outputs.skip == 'false'
+        uses: SonarSource/sonarcloud-github-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # -------- Aggregate: single required check for branch protection --------
+  # <TODO: per-project> set this job as the required status check in
+  # Settings → Branches → Branch protection rules → main.
+  required-status-summary:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    needs: [codeql-analysis, dependency-review, mutation-testing-ci]
+    if: always()
+    steps:
+      - name: Verify all upstream jobs succeeded
+        run: |
+          if [[ "${{ needs.codeql-analysis.result }}" != "success" && "${{ needs.codeql-analysis.result }}" != "skipped" ]]; then exit 1; fi
+          if [[ "${{ needs.dependency-review.result }}" != "success" && "${{ needs.dependency-review.result }}" != "skipped" ]]; then exit 1; fi
+          if [[ "${{ needs.mutation-testing-ci.result }}" != "success" && "${{ needs.mutation-testing-ci.result }}" != "skipped" ]]; then exit 1; fi
+          echo "All quality gates passed."

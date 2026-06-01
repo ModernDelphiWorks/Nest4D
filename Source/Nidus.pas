@@ -1,4 +1,4 @@
-﻿﻿{
+﻿{
   ------------------------------------------------------------------------------
   Nidus
   Modular and scalable application framework for Delphi,

@@ -43,7 +43,7 @@ function TParseUUIDPipe.Transform(const Value: TValue;
 var
   LMessage: String;
 begin
-  if TEvolutionRegEx.IsMatchUUID(Value.ToString)  then
+  if TModernRegEx.IsMatchUUID(Value.ToString)  then
     Result.Success(Value)
   else
   begin

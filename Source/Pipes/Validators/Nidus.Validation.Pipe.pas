@@ -319,7 +319,7 @@ begin
   { TODO -oIsaque -cCache : Estudar uma forma de fazer cache dos decorators e
                             aqui buscar do cache e n?o fazer reflex?o }
 
-  {$IFDEF DEBUG}
+  {$IFDEF DEBUG_NIDUS_VALIDATION_PIPE}
   DebugPrint('RttiType -> ' + ARttiType.Name);
   {$ENDIF}
   for LMethod in ARttiType.GetMethods do
@@ -330,12 +330,12 @@ begin
     if LMethod.Visibility <> TMemberVisibility.mvPublished then
      Continue;
 
-    {$IFDEF DEBUG}
+    {$IFDEF DEBUG_NIDUS_VALIDATION_PIPE}
     DebugPrint('Method -> ' + LMethod.Name);
     {$ENDIF}
     for LDecorator in LMethod.GetAttributes do
     begin
-      {$IFDEF DEBUG}
+      {$IFDEF DEBUG_NIDUS_VALIDATION_PIPE}
       DebugPrint('Decorator -> ' + LDecorator.ClassName);
       {$ENDIF}
       if LDecorator is BodyAttribute then
