@@ -1,7 +1,7 @@
 # Nidus Application Framework for Delphi
 
 [![Delphi XE+](https://img.shields.io/badge/Delphi-XE%20or%20superior-blue.svg)]()
-[![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 *   [🇬🇧 English](#-english)
 *   [🇧🇷 Português](#-português)
@@ -187,4 +187,4 @@ end;
 ```
 
 ---
-*Copyright © 2025-2026 Isaque Pinheiro. Licensed under Apache-2.0 License.*
+*Copyright © 2025-2026 Isaque Pinheiro. Licensed under MIT License.*
