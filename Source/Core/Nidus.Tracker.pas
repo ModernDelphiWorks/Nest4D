@@ -18,6 +18,7 @@ interface
 uses
   Rtti,
   Types,
+  Classes,
   SysUtils,
   RegularExpressions,
   Generics.Collections,
@@ -45,6 +46,11 @@ type
     FRouteManager: TRouteManager;
     FRequest: IRouteRequest;
     FObject: TModernObject;
+    // Visited module classes within a single BindModule resolution — dedupes
+    // diamond imports so an exported singleton (e.g. TJsonAdapter from
+    // TCoreModule) is registered into the module injector exactly once even
+    // when two import paths reach the same module.
+    FVisitedImports: TStringList;
     procedure _AddModuleBinds(const AModule: TModuleAbstract;
       const AInject: TNidusInject);
     procedure _AddExportedModuleBinds(const AModule: TModuleAbstract;
@@ -85,6 +91,9 @@ uses
 constructor TTracker.Create;
 begin
   FRoutes := TTrackerRoute.Create([doOwnsValues]);
+  FVisitedImports := TStringList.Create;
+  FVisitedImports.Sorted := True;
+  FVisitedImports.Duplicates := dupIgnore;
   FNidusInject := GNidusInject;
   if not Assigned(FNidusInject) then
     raise EAppInjector.Create;
@@ -98,6 +107,7 @@ begin
   FRouteManager := nil;
   FAppModule := nil;
   FObject := nil;
+  FVisitedImports.Free;
   FRoutes.Free;
   inherited;
 end;
@@ -229,6 +239,9 @@ begin
   // Injector do Modulo
   LInjector := _CreateInjector;
   LInjector.Name := AModule.ClassName;
+  // Reset the diamond-import dedup set for this module injector build.
+  FVisitedImports.Clear;
+  FVisitedImports.Add(AModule.ClassName);
   _AddModuleBinds(AModule, LInjector);
   if Length(AModule.Imports) > 0 then
   begin
@@ -318,6 +331,11 @@ procedure TTracker._ResolverImports(const AModule: TClass;
 var
   LInstance: TModuleAbstract;
 begin
+  // Diamond-import guard: a module reached through more than one import path is
+  // resolved (and its exported binds registered) only once per injector build.
+  if FVisitedImports.IndexOf(AModule.ClassName) >= 0 then
+    Exit;
+  FVisitedImports.Add(AModule.ClassName);
   LInstance := _CreateModule(AModule);
   if LInstance = nil then
     Exit;
