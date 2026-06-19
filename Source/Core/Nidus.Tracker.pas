@@ -18,6 +18,7 @@ interface
 uses
   Rtti,
   Types,
+  Classes,
   SysUtils,
   RegularExpressions,
   Generics.Collections,
@@ -45,6 +46,7 @@ type
     FRouteManager: TRouteManager;
     FRequest: IRouteRequest;
     FObject: TModernObject;
+    FVisitedImports: TStringList;
     procedure _AddModuleBinds(const AModule: TModuleAbstract;
       const AInject: TNidusInject);
     procedure _AddExportedModuleBinds(const AModule: TModuleAbstract;
@@ -85,6 +87,9 @@ uses
 constructor TTracker.Create;
 begin
   FRoutes := TTrackerRoute.Create([doOwnsValues]);
+  FVisitedImports := TStringList.Create;
+  FVisitedImports.Sorted := True;
+  FVisitedImports.Duplicates := dupIgnore;
   FNidusInject := GNidusInject;
   if not Assigned(FNidusInject) then
     raise EAppInjector.Create;
@@ -99,6 +104,7 @@ begin
   FAppModule := nil;
   FObject := nil;
   FRoutes.Free;
+  FVisitedImports.Free;
   inherited;
 end;
 
@@ -230,6 +236,8 @@ begin
   LInjector := _CreateInjector;
   LInjector.Name := AModule.ClassName;
   _AddModuleBinds(AModule, LInjector);
+  FVisitedImports.Clear;
+  FVisitedImports.Add(AModule.ClassName);
   if Length(AModule.Imports) > 0 then
   begin
     for LModule in AModule.Imports do
@@ -318,6 +326,9 @@ procedure TTracker._ResolverImports(const AModule: TClass;
 var
   LInstance: TModuleAbstract;
 begin
+  if FVisitedImports.IndexOf(AModule.ClassName) >= 0 then
+    Exit;
+  FVisitedImports.Add(AModule.ClassName);
   LInstance := _CreateModule(AModule);
   if LInstance = nil then
     Exit;
