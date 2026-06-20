@@ -28,6 +28,14 @@
 | :--- | :--- | :---: | :---: |
 | **Delphi XE or superior** | VCL, FMX, Console (Win/Linux/macOS/iOS/Android) | ✅ Yes | ✅ Yes |
 
+### 🐧 Cross-Platform Build — Win32 / Win64 / Linux64 (verified)
+
+> **✅ Verified 2026-06-20** in a real production backend: Nidus compiles as a dependency on **Win32, Win64 and Linux64** (`dcclinux64`), and the Linux server boots and registers routes. macOS/iOS/Android follow from the Delphi RTL but are **not build-verified** here yet.
+
+The only Windows-only touch was the `DEBUG` trace in `Nidus.Exception` (`OutputDebugString`), now `{$IFDEF MSWINDOWS}`-guarded with a `stderr` fallback on POSIX; the rest of the framework is already platform-neutral. Windows behaviour is unchanged.
+
+**Building a consumer app for Linux64:** install the Linux 64-bit platform (RAD Studio GetIt / `GetItCmd -if=delphi_linux -ae`), provide a Linux SDK (RAD Studio SDK Manager + PAServer, **or** a sysroot assembled from a WSL/Linux toolchain passed to `dcclinux64` via `--syslibroot` / `--libpath`), then compile with `dcclinux64`. Note: a FireDAC-backed server also needs the driver registered for console/Linux (e.g. `FireDAC.Stan.Def` + `FireDAC.Phys.FB` + the headless `FireDAC.ConsoleUI.Wait`).
+
 ### ⚙️ Installation
 
 To install using the package manager [**Boss**](https://github.com/HashLoad/boss):
@@ -117,6 +125,14 @@ end;
 | Ambiente / IDE | Plataforma / Compilador | Injeção de Dependências | Microsserviços RPC |
 | :--- | :--- | :---: | :---: |
 | **Delphi XE ou superior** | VCL, FMX, Console (Win/Linux/macOS/iOS/Android) | ✅ Sim | ✅ Sim |
+
+### 🐧 Build Multiplataforma — Win32 / Win64 / Linux64 (verificado)
+
+> **✅ Verificado em 2026-06-20** num backend real em produção: o Nidus compila como dependência em **Win32, Win64 e Linux64** (`dcclinux64`), e o servidor Linux sobe e registra as rotas. macOS/iOS/Android seguem da RTL Delphi, mas **ainda não foram verificados** em build aqui.
+
+O único ponto Windows-only era o trace de `DEBUG` em `Nidus.Exception` (`OutputDebugString`), agora sob `{$IFDEF MSWINDOWS}` com fallback para `stderr` no POSIX; o resto do framework já é neutro de plataforma. O comportamento no Windows não muda.
+
+**Para buildar um app consumidor no Linux64:** instale a plataforma Linux 64-bit (RAD Studio GetIt / `GetItCmd -if=delphi_linux -ae`), forneça um SDK Linux (SDK Manager do RAD Studio + PAServer, **ou** um sysroot montado de um toolchain WSL/Linux passado ao `dcclinux64` via `--syslibroot` / `--libpath`), e compile com `dcclinux64`. Obs.: um servidor com FireDAC também precisa do driver registrado para console/Linux (ex.: `FireDAC.Stan.Def` + `FireDAC.Phys.FB` + o `FireDAC.ConsoleUI.Wait` headless).
 
 ### ⚙️ Instalação
 
