@@ -1,4 +1,4 @@
-# Nidus Application Framework for Delphi
+# Nidus — DI · RPC microservices · validation pipes · object pooling for Delphi
 
 [![Delphi XE+](https://img.shields.io/badge/Delphi-XE%20or%20superior-blue.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -6,7 +6,7 @@
 
 > 🔒 **Supply-chain transparency (CRA-ready):** a machine-readable **SBOM** (CycloneDX) is published on the package portal — [pubpascal.dev/packages/nidus](https://www.pubpascal.dev/packages/nidus) · security disclosure policy in **[SECURITY.md](SECURITY.md)**.
 
-📚 **[Documentation](https://moderndelphiworks.github.io/Nidus/)**
+📚 **[Documentation](https://moderndelphiworks.github.io/Nidus/)** · ⬇️ **[Download](../../releases)** · 🐛 **[Issues](../../issues)**
 
 *   [🇬🇧 English](#-english)
 *   [🇧🇷 Português](#-português)
@@ -52,11 +52,18 @@ boss install "https://github.com/ModernDelphiWorks/Nidus"
 > [!NOTE]
 > Since this package does not have a static registry on Boss, it must be installed using its direct Git repository HTTPS URL.
 
+Alternatively, install via [**pubpascal**](https://www.pubpascal.dev/packages/nidus):
+
+```sh
+boss install Nidus
+```
+
 ---
 
 ### ⚡️ Quick Start
 
 #### 1. Define a Modular Architecture (NestJS Style)
+
 ```delphi
 type
   [Module]
@@ -67,6 +74,7 @@ type
 ```
 
 #### 2. Declare Validation Decorators (Pipes)
+
 ```delphi
 type
   TCreateUserDto = class
@@ -87,6 +95,7 @@ type
 ```
 
 #### 3. Initialize and Bootstrap Nidus
+
 ```delphi
 var
   LApp: TNidus;
@@ -99,7 +108,7 @@ begin
       .UseCache(TMemoryCache.Create)      // Enable memory caching
       .UsePools<TMyHeavyResource>(128)   // Pool heavy resources
       .Start(TAppModule.Create);         // Bootstrap main application module
-      
+
     // Resolve services dynamically
     var LUserService := LApp.Get<TUserService>;
     LUserService.Register('Isaque Pinheiro', 'isaquesp@gmail.com');
@@ -150,11 +159,18 @@ boss install "https://github.com/ModernDelphiWorks/Nidus"
 > [!NOTE]
 > Como esta biblioteca não está pré-registrada com apelido no indexador global do Boss, ela é instalada informando-se o link HTTPS direto de seu repositório Git.
 
+Alternativamente, instale via [**pubpascal**](https://www.pubpascal.dev/packages/nidus):
+
+```sh
+boss install Nidus
+```
+
 ---
 
 ### ⚡️ Início Rápido
 
 #### 1. Defina um Módulo (Estilo NestJS)
+
 ```delphi
 type
   [Module]
@@ -165,6 +181,7 @@ type
 ```
 
 #### 2. Declare Atributos de Validação (Decorators/Pipes)
+
 ```delphi
 type
   TCreateUserDto = class
@@ -185,6 +202,7 @@ type
 ```
 
 #### 3. Inicialização e Bootstrap do Nidus
+
 ```delphi
 var
   LApp: TNidus;
@@ -197,7 +215,7 @@ begin
       .UseCache(TMemoryCache.Create)      // Ativa cache em memória
       .UsePools<TMyHeavyResource>(128)   // Pool de recursos pesados
       .Start(TAppModule.Create);         // Inicializa o módulo principal
-      
+
     // Resolve serviços dinamicamente
     var LUserService := LApp.Get<TUserService>;
     LUserService.Register('Isaque Pinheiro', 'isaquesp@gmail.com');
@@ -208,4 +226,42 @@ end;
 ```
 
 ---
-*Copyright © 2025-2026 Isaque Pinheiro. Licensed under MIT License.*
+
+## ⛏️ Contributing / Contribuição
+
+Contributions are welcome — bug reports, feature requests, and pull requests all help Nidus grow.
+Contribuições são bem-vindas — relatórios de bugs, sugestões de features e pull requests ajudam o Nidus a crescer.
+
+[![Issues](https://img.shields.io/badge/Issues-channel-orange)](../../issues)
+
+**Steps / Passos:**
+
+1. Fork the repository / Faça um fork do repositório.
+2. Create a feature branch / Crie uma branch de feature: `git checkout -b feat/my-feature`.
+3. Commit your changes / Faça commits das suas alterações: `git commit -m "feat: describe change"`.
+4. Push to your fork / Envie para o seu fork: `git push origin feat/my-feature`.
+5. Open a Pull Request targeting `main` / Abra um Pull Request apontando para `main`.
+
+---
+
+## 📬 Contact / Contato
+
+[![Email](https://img.shields.io/badge/Email-isaquesp%40gmail.com-D14836?logo=gmail&logoColor=white)](mailto:isaquesp@gmail.com)
+
+---
+
+## 💲 Donation / Doação
+
+If Nidus saves you time, consider supporting its development.
+Se o Nidus economiza seu tempo, considere apoiar o seu desenvolvimento.
+
+[![Doação](https://img.shields.io/badge/PagSeguro-contribua-green)](https://pag.ae/bglQrWD)
+
+---
+
+## 📄 License / Licença
+
+Distributed under the **MIT License**. See [LICENSE](LICENSE) for full text.
+Distribuído sob a **Licença MIT**. Consulte [LICENSE](LICENSE) para o texto completo.
+
+*Copyright © 2025-2026 Isaque Pinheiro.*
