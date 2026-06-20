@@ -35,22 +35,46 @@ implementation
 
 function TIsstrongpassword.Validate(const Value: TValue;
   const Args: IValidationArguments): TResultValidation;
+const
+  CMinLength = 8;
 var
-  LMessage: String;
+  LMessage, LPwd: string;
+  LCh: Char;
+  LHasUpper, LHasLower, LHasDigit, LHasSpecial: Boolean;
 begin
   Result.Success(False);
   
-  // TODO: Implement validation logic for isstrongpassword
-  // This is a template - implement the actual validation logic
+  if Value.Kind in [tkString, tkLString, tkWString, tkUString] then
+  begin
+    LPwd := Value.ToString;
+    LHasUpper := False;
+    LHasLower := False;
+    LHasDigit := False;
+    LHasSpecial := False;
+    for LCh in LPwd do
+      case LCh of
+        'A'..'Z': LHasUpper := True;
+        'a'..'z': LHasLower := True;
+        '0'..'9': LHasDigit := True;
+      else
+        if not CharInSet(LCh, [#0..#32]) then
+          LHasSpecial := True;
+      end;
+    if (Length(LPwd) >= CMinLength) and LHasUpper and LHasLower and
+       LHasDigit and LHasSpecial then
+      Result.Success(True);
+  end;
   
   if not Result.ValueSuccess then
   begin
     LMessage := IfThen(Args.Message = '',
-                       Format('[%s] %s->%s [%s] validation failed for isstrongpassword',
+                       Format('[%s] %s->%s [%s] must be a strong password ' +
+                       '(min %d chars with upper, lower, digit and special)',
                        [Args.TagName,
                         Args.TypeName,
                         Args.Values[Length(Args.Values) -1].ToString,
-                        Args.FieldName]), Args.Message);
+                        Args.FieldName,
+                        CMinLength]), Args.Message);
     Result.Failure(LMessage);
   end;
 end;

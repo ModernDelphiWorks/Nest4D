@@ -18,7 +18,8 @@ interface
 uses
   SysUtils,
   Nidus.Decorator.IsBase,
-  Nidus.Validation.Types;
+  Nidus.Validation.Types,
+  Nidus.Validation.IsStrongPassword;
 
 type
   IsStrongPasswordAttribute = class(IsAttribute)
@@ -39,8 +40,7 @@ end;
 
 function IsStrongPasswordAttribute.Validation: TValidation;
 begin
-  // TODO: Implementar validacao IsStrongPassword quando disponivel
-  Result := nil;
+  Result := TIsstrongpassword;
 end;
 
 end.
