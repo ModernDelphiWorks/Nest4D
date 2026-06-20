@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.0">
 <title data-rh="true">Troubleshooting | Nidus</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://moderndelphiworks.github.io/Nidus/nidus/troubleshooting/common-errors"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Troubleshooting | Nidus"><meta data-rh="true" name="description" content="EAppInjector raised at startup"><meta data-rh="true" property="og:description" content="EAppInjector raised at startup"><link data-rh="true" rel="icon" href="/Nidus/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://moderndelphiworks.github.io/Nidus/nidus/troubleshooting/common-errors"><link data-rh="true" rel="alternate" href="https://moderndelphiworks.github.io/Nidus/nidus/troubleshooting/common-errors" hreflang="en"><link data-rh="true" rel="alternate" href="https://moderndelphiworks.github.io/Nidus/nidus/troubleshooting/common-errors" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Nidus","item":"https://moderndelphiworks.github.io/Nidus/nidus/"},{"@type":"ListItem","position":2,"name":"Troubleshooting","item":"https://moderndelphiworks.github.io/Nidus/nidus/troubleshooting/common-errors"}]}</script><link rel="stylesheet" href="/Nidus/assets/css/styles.ceca1fb6.css">
-<script src="/Nidus/assets/js/runtime~main.3225d0cb.js" defer="defer"></script>
+<script src="/Nidus/assets/js/runtime~main.4426e0bc.js" defer="defer"></script>
 <script src="/Nidus/assets/js/main.69b12ad2.js" defer="defer"></script>
 </head>
 <body>
@@ -34,8 +34,8 @@
 <p><strong>Cause:</strong> The validation pipe found one or more failing decorator constraints on the DTO.</p>
 <p><strong>Fix:</strong></p>
 <ol>
-<li class="">Check the JSON body key names match the DTO property names (case-sensitive RTTI lookup). </li>
-<li class="">Ensure the decorator attribute parameters are correct (e.g. <code>[IsEmail(&#x27;msg&#x27;)]</code> not <code>[IsEmail]</code>). </li>
+<li class="">Check the JSON body key names match the DTO property names exactly — the lookup is <strong>case-sensitive</strong> (<code>TJsonParserMap</code> preserves key casing, and <code>TValidationPipe</code> builds the cache key as <code>ClassName-&gt;PropertyName</code> using the RTTI property name as-is).</li>
+<li class="">The <code>msg</code> parameter in every decorator attribute is optional (default <code>= &#x27;&#x27;</code>); both <code>[IsEmail]</code> and <code>[IsEmail(&#x27;custom message&#x27;)]</code> are valid. When <code>msg</code> is empty, the validator generates a default message from the tag name, type name, field name, and value.</li>
 <li class="">Temporarily disable <code>UsePipes</code> to isolate whether the error comes from validation.</li>
 </ol>
 <hr>
