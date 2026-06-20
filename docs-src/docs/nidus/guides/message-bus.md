@@ -77,7 +77,7 @@ var LBus := GetNidus.Get<TMessageBus>;
 ```
 
 :::note
-The `Nidus.Message.Bus.Module` unit (`Nidus.Message.Bus.Module.pas`) provides a pre-built module definition for the message bus. <!-- TODO: confirm exact class name -->
+The `Nidus.Message.Bus.Module` unit (`Nidus.Message.Bus.Module.pas`) provides a pre-built module definition for the message bus. The class is `TMessageBusModule` (extends `TModule`) and exports `TMessageBus` as a singleton bind.
 :::
 
 ## Lifecycle

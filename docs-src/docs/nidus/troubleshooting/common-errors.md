@@ -64,8 +64,8 @@ uses
 
 **Fix:**
 
-1. Check the JSON body key names match the DTO property names (case-sensitive RTTI lookup). <!-- TODO: confirm case sensitivity -->
-2. Ensure the decorator attribute parameters are correct (e.g. `[IsEmail('msg')]` not `[IsEmail]`). <!-- TODO: confirm whether message param is required -->
+1. Check the JSON body key names match the DTO property names exactly — the lookup is **case-sensitive** (`TJsonParserMap` preserves key casing, and `TValidationPipe` builds the cache key as `ClassName->PropertyName` using the RTTI property name as-is).
+2. The `msg` parameter in every decorator attribute is optional (default `= ''`); both `[IsEmail]` and `[IsEmail('custom message')]` are valid. When `msg` is empty, the validator generates a default message from the tag name, type name, field name, and value.
 3. Temporarily disable `UsePipes` to isolate whether the error comes from validation.
 
 ---

@@ -68,9 +68,9 @@ The `msg` parameter is the error message returned when validation fails.
 | Attribute | Unit | Description |
 |---|---|---|
 | `[IsEmail(msg)]` | `Nidus.Decorator.IsEmail` | RFC 5322 email |
-| `[IsUUID(msg)]` <!-- TODO: confirm --> | — | UUID format |
+| `[IsUUID(msg)]` | `Nidus.Decorator.IsUUID` | UUID format |
 | `[IsIP(msg)]` | `Nidus.Decorator.IsIP` | IPv4 or IPv6 |
-| `[IsURL(msg)]` <!-- TODO: confirm --> | — | URL format |
+| `[IsURL(msg)]` | `Nidus.Decorator.IsURL` | URL format |
 | `[IsISO8601(msg)]` | `Nidus.Decorator.IsISO8601` | ISO 8601 date-time |
 | `[IsDate(msg)]` | `Nidus.Decorator.IsDate` | Date value |
 | `[IsDateString(msg)]` | `Nidus.Decorator.IsDateString` | Date string |
@@ -126,13 +126,49 @@ The `msg` parameter is the error message returned when validation fails.
 
 | Attribute | Unit | Description |
 |---|---|---|
-| `[IsStrongPassword(msg)]` | `Nidus.Decorator.IsStrongPassword` <!-- TODO: confirm unit name --> | Must meet strong-password criteria |
+| `[IsStrongPassword(msg)]` | `Nidus.Decorator.IsStrongPassword` | Must meet strong-password criteria |
 
 ## Strong-password criteria
 
-<!-- TODO: confirm exact criteria — source unit not read -->
-Typically: minimum 8 characters, at least one uppercase, one lowercase, one digit, one special character.
+<!-- TODO: confirm exact criteria — validator logic not yet implemented in source (TIsstrongpassword.Validate returns nil stub) -->
+The validation logic in `Nidus.Validation.IsStrongPassword` is currently a stub. Until the implementation is complete, the decorator registers the tag but performs no actual check.
 
 ## Custom constraints
 
-Implement `IValidatorConstraint` from `Nidus.Validation.Interfaces` to create your own constraint, then wrap it in a custom RTTI attribute. <!-- TODO: confirm example -->
+Implement `IValidatorConstraint` from `Nidus.Validation.Interfaces` to create your own constraint, then wrap it in a custom RTTI attribute. Extend `TValidatorConstraint` (from `Nidus.Validator.Constraint`) to get the interface wired automatically and override only `Validate`:
+
+```delphi
+type
+  TMyConstraint = class(TValidatorConstraint)
+  public
+    function Validate(const Value: TValue;
+      const Args: IValidationArguments): TResultValidation; override;
+  end;
+
+function TMyConstraint.Validate(const Value: TValue;
+  const Args: IValidationArguments): TResultValidation;
+begin
+  if {your condition on Value} then
+    Result.Success(True)
+  else
+    Result.Failure(IfThen(Args.Message = '', 'Validation failed', Args.Message));
+end;
+
+type
+  MyRuleAttribute = class(IsAttribute)
+  public
+    constructor Create(const AMessage: string = ''); override;
+    function Validation: TValidation; override;
+  end;
+
+constructor MyRuleAttribute.Create(const AMessage: string);
+begin
+  inherited Create(AMessage);
+  FTagName := 'MyRule';
+end;
+
+function MyRuleAttribute.Validation: TValidation;
+begin
+  Result := TMyConstraint;
+end;
+```

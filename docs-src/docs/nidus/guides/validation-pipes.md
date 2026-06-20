@@ -63,7 +63,7 @@ Nidus ships with over 60 built-in decorators under `Source/Pipes/Decorators/`. K
 | `[IsAlphaNumeric(msg)]` | `Nidus.Decorator.IsAlphaNumeric` |
 | `[IsAscii(msg)]` | `Nidus.Decorator.IsAscii` |
 | `[Contains(sub, msg)]` | `Nidus.Decorator.Contains` |
-| `[IsLength(min,max,msg)]` <!-- TODO: confirm param names --> | `Nidus.Decorator.IsLength` |
+| `[IsLength(AValueMin, AValueMax, msg)]` | `Nidus.Decorator.IsLength` |
 
 ### Format validators
 | Decorator | Unit |
@@ -120,7 +120,47 @@ When any property fails validation, `TValidationPipe.BuildMessages` aggregates t
 
 ## Custom validators
 
-Implement `IValidatorConstraint` (from `Nidus.Validation.Interfaces`) to write your own constraint, then create a custom attribute that references it. <!-- TODO: confirm — no example found in source -->
+Implement `IValidatorConstraint` (from `Nidus.Validation.Interfaces`) to write your own constraint, then create a custom attribute that references it.
+
+The concrete base class `TValidatorConstraint` (from `Nidus.Validator.Constraint`) implements the interface and declares `Validate` as `virtual; abstract`:
+
+```delphi
+// 1. Implement the constraint class
+type
+  TMyConstraint = class(TValidatorConstraint)
+  public
+    function Validate(const Value: TValue;
+      const Args: IValidationArguments): TResultValidation; override;
+  end;
+
+function TMyConstraint.Validate(const Value: TValue;
+  const Args: IValidationArguments): TResultValidation;
+begin
+  if {condition} then
+    Result.Success(True)
+  else
+    Result.Failure(Args.Message);
+end;
+
+// 2. Create a matching attribute
+type
+  MyRuleAttribute = class(IsAttribute)
+  public
+    constructor Create(const AMessage: string = ''); override;
+    function Validation: TValidation; override;
+  end;
+
+constructor MyRuleAttribute.Create(const AMessage: string);
+begin
+  inherited Create(AMessage);
+  FTagName := 'MyRule';
+end;
+
+function MyRuleAttribute.Validation: TValidation;
+begin
+  Result := TMyConstraint;
+end;
+```
 
 ## Transform pipes
 

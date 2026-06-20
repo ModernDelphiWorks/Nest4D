@@ -75,7 +75,14 @@ Defined in `Nidus.Module.Cache.Interfaces`.
 
 Defined in `Nidus.Pooling.Interfaces`.
 
-<!-- TODO: confirm full interface methods — unit not read in detail -->
+| Method | Description |
+|---|---|
+| `procedure RegisterPool(const AKey: string; const APool: IPool)` | Register a pool instance under the given key. |
+| `function TryGetPool(const AKey: string; out APool: IPool): Boolean` | Retrieve a registered pool; returns `False` if not found. |
+
+The companion interface `IPool` (also in `Nidus.Pooling.Interfaces`) defines `Acquire: TObject`, `procedure Release(const AValue: TObject)`, and `function Count: Integer`.
+
+Global accessors: `SetGlobalPoolRegistry(registry)` and `GetGlobalPoolRegistry`.
 
 ---
 

@@ -70,7 +70,38 @@ THorse
 
 ## `Horse.ResponseCache`
 
-`Horse.ResponseCache` (`Source/Horse/Horse.ResponseCache.pas`) is a Nidus-owned Horse middleware for HTTP response caching. <!-- TODO: confirm full API — unit exists but was not read -->
+`Horse.ResponseCache` (`Source/Horse/Horse.ResponseCache.pas`) is a Nidus-owned Horse middleware for HTTP response caching.
+
+Three `ResponseCache` overloads are exported from the unit:
+
+```delphi
+// 1. Fluent options object
+function ResponseCache(const AOptions: THorseResponseCacheOptions = nil): THorseCallback;
+
+// 2. Quick TTL shorthand (defaults: MaxEntries=5000, VaryAuthorization=True)
+function ResponseCache(const ATtlSeconds: Integer;
+  const AMaxEntries: Integer = 5000;
+  const AVaryAuthorization: Boolean = True): THorseCallback;
+
+// 3. Route-prefix list with TTL (defaults: TTL=30, MaxEntries=5000, VaryAuthorization=True)
+function ResponseCache(const ACacheRoutes: array of string;
+  const ATtlSeconds: Integer = 30;
+  const AMaxEntries: Integer = 5000;
+  const AVaryAuthorization: Boolean = True): THorseCallback;
+```
+
+`THorseResponseCacheOptions` is a fluent builder class (all methods return `Self`):
+
+| Method | Default | Description |
+|---|---|---|
+| `TtlSeconds(n)` | `30` | Cache entry lifetime in seconds |
+| `MaxEntries(n)` | `5000` | Maximum number of cached responses |
+| `VaryAuthorization(b)` | `True` | Include `Authorization` header in the cache key |
+| `CacheAll(b)` | `True` | Cache all GET routes |
+| `CacheRoutes(routes)` | `[]` | Cache only routes that start with the given prefixes |
+| `SkipRoutes(routes)` | `['/swagger', '/favicon.ico']` | Never cache these path prefixes |
+
+Only `GET` requests are cached. Responses with a 2xx status code and a non-empty body are stored. The cache key is `method:path?query|auth=<token>` (lowercased).
 
 ## Error JSON format
 

@@ -87,7 +87,24 @@ begin
 end;
 ```
 
-`TRPCProviderClient.ExecuteRPC` is the abstract base; `TRPCClientIndy` / `TRPCClientSynapse` provide the actual TCP transport. <!-- TODO: confirm exact JSON envelope format from Nidus.RPC.Parse -->
+`TRPCProviderClient.ExecuteRPC` is the abstract base; `TRPCClientIndy` / `TRPCClientSynapse` provide the actual TCP transport.
+
+**JSON envelope** (confirmed from `Nidus.RPC.Parse` and `Nidus.RPC.RouteHandle`):
+
+Request sent to the server:
+```json
+{ "id": "1", "method": "MethodName", "params": ["arg1", "arg2"] }
+```
+
+Success response:
+```json
+{ "jsonrpc": "2.0", "result": <return_value>, "id": "1" }
+```
+
+Error response (method not found):
+```json
+{ "jsonrpc": "2.0", "error": { "code": -32601, "message": "Method MethodName not found" }, "id": "1" }
+```
 
 ## Unpublishing
 

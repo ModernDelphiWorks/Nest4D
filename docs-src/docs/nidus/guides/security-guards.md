@@ -53,7 +53,21 @@ Inside the guard callback, use `GetNidus.Request` to inspect the current `IRoute
   end)
 ```
 
-`IRouteRequest` exposes: `Headers`, `Params`, `Query`, `Body`, `Host`, `ContentType`, `Method`, `PathInfo`, `ServerPort`, `Authorization`. <!-- TODO: confirm interface definition in Nidus.Request -->
+`IRouteRequest` (defined in `Nidus.Request`) exposes the following methods:
+
+| Method | Return type | Description |
+|---|---|---|
+| `Header` | `TRequestData` | Request headers |
+| `Params` | `TRequestData` | Route parameters |
+| `Querys` | `TRequestData` | Query-string parameters |
+| `Body` | `string` | Raw request body |
+| `Host` | `string` | Host name |
+| `ContentType` | `string` | `Content-Type` header value |
+| `Method` | `string` | HTTP method (`GET`, `POST`, …) |
+| `URL` | `string` | Full request URL |
+| `Port` | `integer` | Server port |
+| `Authorization` | `string` | `Authorization` header value |
+| `AsObject` | `TObject` | Deserialized body object (set by `TParseJsonPipe`) |
 
 ## Exception types
 
