@@ -180,7 +180,7 @@ type
   end;
 ```
 
-#### 2. Declare Atributos de Validação (Decorators/Pipes)
+#### 2. Defina os Atributos de Validação (Decorators/Pipes)
 
 ```delphi
 type
@@ -227,7 +227,7 @@ end;
 
 ---
 
-## ⛏️ Contributing / Contribuição
+## ⛏️ Contributing/Contribuição
 
 Contributions are welcome — bug reports, feature requests, and pull requests all help Nidus grow.
 Contribuições são bem-vindas — relatórios de bugs, sugestões de features e pull requests ajudam o Nidus a crescer.
@@ -244,13 +244,13 @@ Contribuições são bem-vindas — relatórios de bugs, sugestões de features 
 
 ---
 
-## 📬 Contact / Contato
+## 📬 Contact/Contato
 
 [![Email](https://img.shields.io/badge/Email-isaquesp%40gmail.com-D14836?logo=gmail&logoColor=white)](mailto:isaquesp@gmail.com)
 
 ---
 
-## 💲 Donation / Doação
+## 💲 Donation/Doação
 
 If Nidus saves you time, consider supporting its development.
 Se o Nidus economiza seu tempo, considere apoiar o seu desenvolvimento.
@@ -259,7 +259,7 @@ Se o Nidus economiza seu tempo, considere apoiar o seu desenvolvimento.
 
 ---
 
-## 📄 License / Licença
+## 📄 License/Licença
 
 Distributed under the **MIT License**. See [LICENSE](LICENSE) for full text.
 Distribuído sob a **Licença MIT**. Consulte [LICENSE](LICENSE) para o texto completo.
