@@ -1,4 +1,4 @@
-﻿{
+{
   ------------------------------------------------------------------------------
   Nidus
   Modular and scalable application framework for Delphi, inspired by the architectural patterns of NestJS.
@@ -12,6 +12,10 @@
 }
 
 unit Nidus.Client.Indy;
+
+// Optional RPC provider — requires the Indy library (IdTCPClient).
+// Define NIDUS_INDY (and have Indy installed) to compile it in.
+{$IFDEF NIDUS_INDY}
 
 interface
 
@@ -28,16 +32,16 @@ type
   private
     FTCPClient: TIdTCPClientCustom;
   public
-    constructor Create(const AHost: String; const APort: integer = 8080); override;
+    constructor Create(const AHost: string; const APort: integer = 8080); override;
     destructor Destroy; override;
-    function ExecuteRPC(const ARequest: String): String; override;
+    function ExecuteRPC(const ARequest: string): string; override;
   end;
 
 implementation
 
 { TRPCProviderClientIndy }
 
-constructor TRPCProviderClientIndy.Create(const AHost: String; const APort: integer);
+constructor TRPCProviderClientIndy.Create(const AHost: string; const APort: integer);
 begin
   inherited Create(AHost, APort);
   FTCPClient := TIdTCPClientCustom.Create(nil);
@@ -51,7 +55,7 @@ begin
   inherited;
 end;
 
-function TRPCProviderClientIndy.ExecuteRPC(const ARequest: String): String;
+function TRPCProviderClientIndy.ExecuteRPC(const ARequest: string): string;
 begin
   try
     FTCPClient.Connect;
@@ -62,10 +66,12 @@ begin
   end;
 end;
 
+{$ELSE}
+
+interface
+
+implementation
+
+{$ENDIF}
+
 end.
-
-
-
-
-
-

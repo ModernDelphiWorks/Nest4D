@@ -13,6 +13,10 @@
 
 unit Nidus.Parse.Jsonbr.Pipe;
 
+// Optional transform pipe — requires the third-party JsonBr library (jsonbr / jsonbr.builders).
+// Define NIDUS_JSONBR (and have JsonBr installed) to compile it in.
+{$IFDEF NIDUS_JSONBR}
+
 interface
 
 uses
@@ -64,6 +68,14 @@ begin
       Result.Failure(E.Message);
   end;
 end;
+
+{$ELSE}
+
+interface
+
+implementation
+
+{$ENDIF}
 
 end.
 

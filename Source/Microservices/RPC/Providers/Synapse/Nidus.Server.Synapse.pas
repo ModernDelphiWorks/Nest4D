@@ -1,4 +1,4 @@
-﻿{
+{
   ------------------------------------------------------------------------------
   Nidus
   Modular and scalable application framework for Delphi, inspired by the architectural patterns of NestJS.
@@ -12,6 +12,10 @@
 }
 
 unit Nidus.Server.Synapse;
+
+// Optional RPC provider — requires the third-party Synapse library (blcksock/synsock/synautil).
+// Define NIDUS_SYNAPSE (and have Synapse installed) to compile it in.
+{$IFDEF NIDUS_SYNAPSE}
 
 interface
 
@@ -30,7 +34,7 @@ type
     FTerminated: Boolean;
     procedure _HandleClientConnection(AClientSocket: TTCPBlockSocket);
   public
-    constructor Create(const AHost: String; const APort: integer = 8080); override;
+    constructor Create(const AHost: string; const APort: integer = 8080); override;
     destructor Destroy; override;
     procedure Start; override;
     procedure Stop; override;
@@ -48,7 +52,7 @@ implementation
 
 { TRPCProviderServerSynapse }
 
-constructor TRPCProviderServerSynapse.Create(const AHost: String; const APort: integer);
+constructor TRPCProviderServerSynapse.Create(const AHost: string; const APort: integer);
 begin
   inherited Create(AHost, APort);
   FTCPServer := TTCPBlockSocket.Create;
@@ -63,10 +67,10 @@ end;
 
 procedure TRPCProviderServerSynapse._HandleClientConnection(AClientSocket: TTCPBlockSocket);
 var
-  LRequestData: String;
-  LResponseData: String;
+  LRequestData: string;
+  LResponseData: string;
 begin
-  LRequestData := String(AClientSocket.RecvTerminated(5000, #10));
+  LRequestData := string(AClientSocket.RecvTerminated(5000, #10));
   LResponseData := ExecuteRPC(LRequestData);
   AClientSocket.SendString(AnsiString(LResponseData + CRLF));
   AClientSocket.CloseSocket;
@@ -111,13 +115,12 @@ begin
   end;
 end;
 
+{$ELSE}
+
+interface
+
+implementation
+
+{$ENDIF}
+
 end.
-
-
-
-
-
-
-
-
-

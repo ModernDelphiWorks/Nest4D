@@ -1,4 +1,4 @@
-﻿{
+{
   ------------------------------------------------------------------------------
   Nidus
   Modular and scalable application framework for Delphi, inspired by the architectural patterns of NestJS.
@@ -13,6 +13,10 @@
 
 unit Nidus.Client.Synapse;
 
+// Optional RPC provider — requires the third-party Synapse library (blcksock/synapse).
+// Define NIDUS_SYNAPSE (and have Synapse installed) to compile it in.
+{$IFDEF NIDUS_SYNAPSE}
+
 interface
 
 uses
@@ -26,16 +30,16 @@ type
   private
     FTCPClient: TTCPBlockSocket;
   public
-    constructor Create(const AHost: String; const APort: integer = 8080); override;
+    constructor Create(const AHost: string; const APort: integer = 8080); override;
     destructor Destroy; override;
-    function ExecuteRPC(const ARequest: String): String; override;
+    function ExecuteRPC(const ARequest: string): string; override;
   end;
 
 implementation
 
 { TRPCProviderClientSynapse }
 
-constructor TRPCProviderClientSynapse.Create(const AHost: String; const APort: integer);
+constructor TRPCProviderClientSynapse.Create(const AHost: string; const APort: integer);
 begin
   inherited Create(AHost, APort);
   FTCPClient := TTCPBlockSocket.Create;
@@ -49,22 +53,23 @@ begin
   inherited;
 end;
 
-function TRPCProviderClientSynapse.ExecuteRPC(const ARequest: String): String;
+function TRPCProviderClientSynapse.ExecuteRPC(const ARequest: string): string;
 begin
   try
     FTCPClient.Connect(FTCPClient.SocksIP, FTCPClient.SocksPort);
     FTCPClient.SendString(AnsiString(ARequest + CRLF));
-    Result := String(FTCPClient.RecvString(5000));
+    Result := string(FTCPClient.RecvString(5000));
   finally
     FTCPClient.CloseSocket;
   end;
 end;
 
+{$ELSE}
+
+interface
+
+implementation
+
+{$ENDIF}
+
 end.
-
-
-
-
-
-
-
