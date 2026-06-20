@@ -16,7 +16,9 @@ unit Nidus.Exception;
 interface
 
 uses
-  Windows,
+  {$IFDEF MSWINDOWS}
+  Windows,   // OutputDebugString (DEBUG-only); Epic 25 Linux guard
+  {$ENDIF}
   Classes,
   StrUtils,
   SysUtils;
@@ -118,7 +120,11 @@ begin
   TThread.Queue(nil,
           procedure
           begin
+            {$IFDEF MSWINDOWS}
             OutputDebugString(PWideChar('[Nidus] - ' + FormatDateTime('mm/dd/yyyy, hh:mm:ss AM/PM', Now) + ' LOG ' + AMessage));
+            {$ELSE}
+            Writeln(ErrOutput, '[Nidus] - ' + FormatDateTime('mm/dd/yyyy, hh:mm:ss AM/PM', Now) + ' LOG ' + AMessage);
+            {$ENDIF}
           end);
 end;
 {$ENDIF}
