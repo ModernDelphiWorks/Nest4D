@@ -6,6 +6,8 @@
 
 > 🔒 **Supply-chain transparency (CRA-ready):** a machine-readable **SBOM** (CycloneDX) is published on the package portal — [pubpascal.dev/packages/nidus](https://www.pubpascal.dev/packages/nidus) · security disclosure policy in **[SECURITY.md](SECURITY.md)**.
 
+📚 **[Documentation](https://moderndelphiworks.github.io/Nidus/)**
+
 *   [🇬🇧 English](#-english)
 *   [🇧🇷 Português](#-português)
 

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "metadata": {
+    "tools": [
+      {
+        "name": "PubDelphi",
+        "vendor": "PubDelphi",
+        "version": "0.18.0"
+      }
+    ],
+    "component": {
+      "name": "Nidus",
+      "purl": "pkg:github/ModernDelphiWorks/Nidus@1.1.0",
+      "type": "application",
+      "version": "1.1.0"
+    },
+    "timestamp": "2026-06-10T00:37:03.541Z"
+  },
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "name": "InjectContainer",
+      "purl": "pkg:github/ModernDelphiWorks/InjectContainer@",
+      "type": "library",
+      "version": ""
+    },
+    {
+      "name": "ModernSyntax",
+      "purl": "pkg:github/ModernDelphiWorks/ModernSyntax@",
+      "type": "library",
+      "version": ""
+    }
+  ],
+  "specVersion": "1.5"
+}
