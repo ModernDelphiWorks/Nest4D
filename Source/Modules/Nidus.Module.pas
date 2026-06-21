@@ -53,6 +53,10 @@ type
     FNidusInject: PNidusInject;
     FRouteHandlers: TObjectList<TRouteHandler>;
     FService: TModuleService;
+    // DEC-050 — True when this instance was built only to harvest ExportedBinds for
+    // an Imports (TTracker._CreateModule). Such a throwaway must not register/destroy
+    // routes or its injector (those belong to the module's real, route-owned instance).
+    FHarvestOnly: Boolean;
     procedure _DestroyRoutes;
     procedure _DestroyInjector;
     procedure _AddRoutes;
@@ -120,25 +124,40 @@ begin
   FNidusInject := GNidusInject;
   if not Assigned(FNidusInject) then
     raise EAppInjector.Create;
+  // DEC-050 — capture the harvest flag at construction time (it is set only by
+  // TTracker._CreateModule, around the throwaway Imports-harvest instance).
+  FHarvestOnly := GNidusHarvesting;
   // Service inject
   FService := FNidusInject^.Get<TModuleService>;
   // Routehandler list
   FRouteHandlers := TObjectList<TRouteHandler>.Create;
-  // Load binds
-  _BindModule;
-  // Load routes
-  _AddRoutes;
-  // Load routehandles
-  _RouteHandlers;
+  // A harvest-only instance exists solely so _ResolverImports can read its
+  // ExportedBinds; it must NOT register its binds/routes/handlers (that would
+  // collide with — and on Destroy tear down — the module's real route-owned
+  // registration). Skip all registration for it.
+  if not FHarvestOnly then
+  begin
+    // Load binds
+    _BindModule;
+    // Load routes
+    _AddRoutes;
+    // Load routehandles
+    _RouteHandlers;
+  end;
 end;
 
 destructor TModule.Destroy;
 begin
   FNidusInject := nil;
-  // Destroy as rotas do modulo
-  _DestroyRoutes;
-  // Destroy o injector do modulo
-  _DestroyInjector;
+  // DEC-050 — a harvest-only instance registered nothing, so it must tear nothing
+  // down. Only a real instance owns (and disposes) the module's routes + injector.
+  if not FHarvestOnly then
+  begin
+    // Destroy as rotas do modulo
+    _DestroyRoutes;
+    // Destroy o injector do modulo
+    _DestroyInjector;
+  end;
   // Libera o servi?o
   FService.Free;
   // Libera os routehendlers

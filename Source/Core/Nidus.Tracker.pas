@@ -187,8 +187,21 @@ begin
 end;
 
 function TTracker._CreateModule(const AModule: TClass): TModuleAbstract;
+var
+  LPrevHarvest: Boolean;
 begin
-  Result := FObject.Factory(AModule) as TModuleAbstract;
+  // DEC-050 — _CreateModule is used ONLY by _ResolverImports, which builds a
+  // throwaway instance purely to read its ExportedBinds. Flag it as harvest-only so
+  // TModule.Create/Destroy skip route/injector (de)registration; otherwise freeing
+  // this throwaway tore down the imported module's REAL routes + injector (the
+  // /api/v1/bancos-after-clientes 400). Save/restore keeps nested imports safe.
+  LPrevHarvest := GNidusHarvesting;
+  GNidusHarvesting := True;
+  try
+    Result := FObject.Factory(AModule) as TModuleAbstract;
+  finally
+    GNidusHarvesting := LPrevHarvest;
+  end;
 end;
 
 procedure TTracker._GuardianRoute(const ARoute: TRouteAbstract);
