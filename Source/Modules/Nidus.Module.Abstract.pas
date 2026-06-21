@@ -41,6 +41,16 @@ type
     function RouteHandlers: TRouteHandlers; virtual; abstract;
   end;
 
+var
+  // DEC-050 — set True by TTracker._CreateModule only while constructing the
+  // THROWAWAY instance it makes solely to HARVEST a module's ExportedBinds (the
+  // Imports path). A module built in this mode must NOT register routes/injector on
+  // Create, nor tear them down on Destroy: those belong to the module's REAL
+  // instance (owned by its route). Without this, freeing the harvest instance ran
+  // _DestroyRoutes/_DestroyInjector against the shared registration and destroyed an
+  // IMPORTED route-bearing module's routes (the /api/v1/bancos-after-clientes 400).
+  GNidusHarvesting: Boolean = False;
+
 implementation
 
 end.
