@@ -83,6 +83,8 @@ var
   LRouteParts: String;
   LRouteResult: TReturnPair;
   LListener: TAppListener;
+  LIndex: Integer;
+  LFound: Boolean;
 begin
   LPath := LowerCase(APath);
   if LPath = '' then
@@ -100,27 +102,30 @@ begin
   end
   else
   begin
-    LRouteParts := '';
-    // Resolve routes
-    _ResolveRoutes(APath,
-                   function (Route: String): TReturnPair
-                   begin
-                     LRouteParts := LRouteParts + '/' + Route;
-                     LArgs := TRouteParam.Create(LRouteParts, AReq);
-                     if Assigned(LListener) then
-                       LListener.Execute(FormatListenerMessage(Format('[RoutesResolver] %s', [LRouteParts])));
-                     // If the condition "LRouteResult.isFailure" indicates that
-                     // the previous route was not found, it is necessary to release
-                     // the "Exception" variable to ensure that only the last route
-                     // in the loop assigns a value to "LRouteResult."
-                     // This ensures that any previously encountered errors or
-                     // failures do not interfere with the final result, allowing
-                     // the last valid route to be correctly assigned and used.
-//                     if LRouteResult.isFailure then
-//                       LRouteResult.Dispose;
-                     LRouteResult := FService.GetRoute(LArgs);
-                     Result := LRouteResult;
-                   end);
+    // DEC-051 — longest-literal-prefix probe. The exact FindEndPoint above missed
+    // because the request path carries param VALUES (e.g. /bancos-carteiras/001/ZZ).
+    // RemoveSuffix now stores composite-key routes under their literal prefix
+    // (/bancos-carteiras), so trim trailing segments one at a time and retry
+    // FindEndPoint, taking the LONGEST match. This generalises the previous
+    // single-last-segment reduction to N trailing params; Horse then binds each
+    // :param positionally once the route resolves and Next runs.
+    LFound := False;
+    LRouteParts := LPath;
+    repeat
+      LIndex := LRouteParts.LastIndexOf('/');
+      if LIndex <= 0 then
+        Break;
+      LRouteParts := LRouteParts.Substring(0, LIndex);
+      if FRouteManager.FindEndPoint(LRouteParts) <> '' then
+      begin
+        LArgs := TRouteParam.Create(LRouteParts, AReq);
+        LRouteResult := FService.GetRoute(LArgs);
+        LFound := True;
+        Break;
+      end;
+    until LRouteParts = '';
+    if not LFound then
+      LRouteResult.Failure(ERouteNotFoundException.CreateFmt('', [APath]));
   end;
   Result := LRouteResult;
 end;
