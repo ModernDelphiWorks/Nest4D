@@ -60,7 +60,13 @@ end;
 
 function TRouteManager.RemoveSuffix(const ARoute: String): String;
 const
-  LPattern = '(/{[^/]*})|(/:[^/]+)$';
+  // DEC-051 — strip ALL trailing param segments (one or more), not just the last
+  // one, so composite-key routes reduce to their literal prefix. The original
+  // '(/{[^/]*})|(/:[^/]+)$' anchored only ONE trailing '/:param' to end-of-string,
+  // so '/x/:a/:b' kept '/x/:a' (param still embedded) and never matched a request.
+  // The repeated anchored group also folds in the (now brace-escaped) '/{param}'
+  // form. '/x/:a' still reduces to '/x' (single-param behaviour unchanged).
+  LPattern = '(/:[^/]+|/\{[^/]*\})+$';
 begin
   Result := TRegEx.Replace(ARoute, LPattern, '');
 end;
