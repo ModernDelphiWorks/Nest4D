@@ -58,7 +58,7 @@ type
       const AInject: TNidusInject);
     function _CreateInjector: TNidusInject;
     function _CreateModule(const AModule: TClass): TModuleAbstract;
-    procedure _GuardianRoute(const ARoute: TRouteAbstract);
+    procedure _GuardianRoute(const ARoute: TRouteAbstract; const AReq: IRouteRequest);
     function _RouteMiddlewares(const ARoute: TRouteAbstract): TRouteAbstract;
     procedure _RemoveEndPoint(const APath: string);
   public
@@ -204,7 +204,7 @@ begin
   end;
 end;
 
-procedure TTracker._GuardianRoute(const ARoute: TRouteAbstract);
+procedure TTracker._GuardianRoute(const ARoute: TRouteAbstract; const AReq: IRouteRequest);
 var
   LMiddleware: IRouteMiddleware;
   LParamRequest: TValue;
@@ -215,7 +215,12 @@ begin
   for LFor := 0 to High(ARoute.Middlewares) do
   begin
     LMiddleware := ARoute.Middlewares[LFor].Create;
-    LParamRequest := TValue.From<IRouteRequest>(FRequest);
+    // THREAD-SAFETY (cross-tenant): pass the guard the request PARAMETER, not the
+    // singleton field FRequest. TTracker is a lazy singleton; FRequest is stamped at
+    // the top of FindRoute and read here, so between the two a concurrent request can
+    // overwrite it — the guard (e.g. auth) would then read ANOTHER request's JWT and
+    // set the tenant scope to the WRONG company. AReq is this call's own request.
+    LParamRequest := TValue.From<IRouteRequest>(AReq);
 //    if LParamRequest.AsInterface = nil then
 //      Continue;
     if not LMiddleware.Call(LParamRequest.AsType<IRouteRequest>) then
@@ -282,7 +287,7 @@ begin
     if LKey.Path <> LEndPoint then
       Continue;
     LRoute := FRoutes.Items[LKey];
-    _GuardianRoute(LRoute);
+    _GuardianRoute(LRoute, AArgs.Request);
     Result := _RouteMiddlewares(LRoute);
     Break;
   end;
