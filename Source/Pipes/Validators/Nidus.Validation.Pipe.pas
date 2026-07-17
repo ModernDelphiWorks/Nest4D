@@ -1,4 +1,4 @@
-﻿{
+{
   ------------------------------------------------------------------------------
   Nidus
   Modular and scalable application framework for Delphi, inspired by the architectural patterns of NestJS.
@@ -18,6 +18,8 @@ interface
 uses
   Rtti,
   TypInfo,
+  Classes,
+  SyncObjs,
   SysUtils,
   StrUtils,
   Generics.Collections,
@@ -34,6 +36,23 @@ uses
 type
   TValidations = class(TList<IValidationInfo>);
   TTransforms = class(TList<ITransformInfo>);
+
+  // THREAD-SAFETY (re-entrancy): the per-request working state that Validate used to
+  // keep in instance fields is gathered here and lives as a LOCAL of Validate, passed
+  // by pointer to the private helpers. TValidationPipe is a process-wide singleton
+  // (registered once via GetNidus.UsePipes(TValidationPipe.Create)); keeping this state
+  // on the instance made concurrent requests share+free the same dictionaries ->
+  // cross-thread use-after-free / double-free (FastMM "virtual method on a freed
+  // object" / "FreeMem block header corrupted"). As locals, each concurrent Validate is
+  // self-contained.
+  PValidationWork = ^TValidationWork;
+  TValidationWork = record
+    Context: TRttiContext;
+    Validations: TValidations;
+    Transforms: TTransforms;
+    JsonMapped: TJsonMapped;
+    Messages: TList<String>;   // the CURRENT thread's message list (owned by FThreadMessages)
+  end;
 
   TValidationInfo = class(TInterfacedObject, IValidationInfo)
   private
@@ -63,20 +82,22 @@ type
 
   TValidationPipe = class(TInterfacedObject, IValidationPipe)
   private
-    FContext: TRttiContext;
-    FValidations: TValidations;
-    FTransforms: TTransforms;
-    FMessages: TSmartPtr<TList<String>>;
-    FJsonMapped: TJsonMapped;
-    procedure _MapPipes(const AClass: TClass; const ARequest: IRouteRequest); inline;
-    procedure _MapValidation(const AClass: TClass; const ARequest: IRouteRequest); inline;
-    procedure _ResolveParams(const ADecorator: TCustomAttribute; const ARequest: IRouteRequest); inline;
-    procedure _ResolveQuerys(const ADecorator: TCustomAttribute; const ARequest: IRouteRequest); inline;
-    procedure _ResolvePipes(const AClass: TClass; const ARttiType: TRttiType;
+    // Per-thread validation messages (mirrors the InjectContainer#2 per-thread
+    // partition): the Validate->IsMessages->BuildMessages contract runs on one thread,
+    // so each thread keeps its own reusable message list. FLock guards ONLY the
+    // dictionary get/create; the returned list is touched by its owning thread.
+    FThreadMessages: TObjectDictionary<TThreadID, TList<String>>;
+    FLock: TCriticalSection;
+    function _CurrentMessages: TList<String>;
+    procedure _MapPipes(const AWork: PValidationWork; const AClass: TClass; const ARequest: IRouteRequest); inline;
+    procedure _MapValidation(const AWork: PValidationWork; const AClass: TClass; const ARequest: IRouteRequest); inline;
+    procedure _ResolveParams(const AWork: PValidationWork; const ADecorator: TCustomAttribute; const ARequest: IRouteRequest); inline;
+    procedure _ResolveQuerys(const AWork: PValidationWork; const ADecorator: TCustomAttribute; const ARequest: IRouteRequest); inline;
+    procedure _ResolvePipes(const AWork: PValidationWork; const AClass: TClass; const ARttiType: TRttiType;
       const ARequest: IRouteRequest); inline;
-    procedure _ResolvePayLoads(const ARttiType: TRttiType;
+    procedure _ResolvePayLoads(const AWork: PValidationWork; const ARttiType: TRttiType;
       const ARequest: IRouteRequest); inline;
-    procedure _ResolveBody(const ADecorator: TCustomAttribute; const ARequest: IRouteRequest);
+    procedure _ResolveBody(const AWork: PValidationWork; const ADecorator: TCustomAttribute; const ARequest: IRouteRequest);
     function _ArrayMerge<T>(const AArray1: TArray<T>; const AArray2: TArray<T>): TArray<T>; inline;
   public
     constructor Create;
@@ -92,41 +113,70 @@ implementation
 
 constructor TValidationPipe.Create;
 begin
-  FContext := TRttiContext.Create;
-  FMessages := TList<String>.Create;
+  FThreadMessages := TObjectDictionary<TThreadID, TList<String>>.Create([doOwnsValues]);
+  FLock := TCriticalSection.Create;
 end;
 
 destructor TValidationPipe.Destroy;
 begin
-  FContext.Free;
+  FThreadMessages.Free;   // doOwnsValues frees every per-thread list
+  FLock.Free;
   inherited;
 end;
 
+function TValidationPipe._CurrentMessages: TList<String>;
+begin
+  // Short lock around the dict get/create only; the list is then used lock-free by
+  // its owning thread. Reused across requests on the same (pooled) Horse worker.
+  FLock.Enter;
+  try
+    if not FThreadMessages.TryGetValue(TThread.CurrentThread.ThreadID, Result) then
+    begin
+      Result := TList<String>.Create;
+      FThreadMessages.Add(TThread.CurrentThread.ThreadID, Result);
+    end;
+  finally
+    FLock.Leave;
+  end;
+end;
+
 function TValidationPipe.IsMessages: Boolean;
+var
+  LMessages: TList<String>;
 begin
   Result := False;
-  if FMessages.AsRef = nil then
-    exit;
-  Result := FMessages.AsRef.Count > 0;
+  FLock.Enter;
+  try
+    if FThreadMessages.TryGetValue(TThread.CurrentThread.ThreadID, LMessages) then
+      Result := LMessages.Count > 0;
+  finally
+    FLock.Leave;
+  end;
 end;
 
 procedure TValidationPipe.Validate(const AClass: TClass;
   const ARequest: IRouteRequest);
 var
+  LWork: TValidationWork;
+  LMessages: TList<String>;
   LValidator: IValidationInfo;
   LInfo: ITransformInfo;
   LResultTransform: TResultTransform;
   LResultValidation: TResultValidation;
 begin
-  FMessages.AsRef.Clear;
-  FJsonMapped := TJsonMapped.Create([doOwnsValues]);
-  FValidations := TValidations.Create;
-  FTransforms := TTransforms.Create;
+  // Per-request working state is LOCAL (re-entrant): no shared instance fields.
+  LMessages := _CurrentMessages;
+  LMessages.Clear;
+  LWork.Context := TRttiContext.Create;
+  LWork.Validations := TValidations.Create;
+  LWork.Transforms := TTransforms.Create;
+  LWork.JsonMapped := TJsonMapped.Create([doOwnsValues]);
+  LWork.Messages := LMessages;
   { TODO -oIsaque -cPerformance : Implementar threads nos FORs }
   try
-    _MapValidation(AClass, ARequest);
+    _MapValidation(@LWork, AClass, ARequest);
     // Transforms
-    for LInfo in FTransforms do
+    for LInfo in LWork.Transforms do
     begin
       LResultTransform := LInfo.Transform.Transform(LInfo.Value,
                                                     LInfo.Metadata);
@@ -149,11 +199,11 @@ begin
         end,
         procedure(Msg: String)
         begin
-          FMessages.AsRef.Add(Msg);
+          LMessages.Add(Msg);
         end);
     end;
     // Validations
-    for LValidator in FValidations do
+    for LValidator in LWork.Validations do
     begin
       LResultValidation := LValidator.Validator.Validate(LValidator.Value,
                                                          LValidator.Args);
@@ -164,25 +214,32 @@ begin
         end,
         procedure(Msg: String)
         begin
-          FMessages.AsRef.Add(Msg);
+          LMessages.Add(Msg);
         end);
     end;
   finally
-    FJsonMapped.Free;
-    FValidations.Free;
-    FTransforms.Free;
+    LWork.JsonMapped.Free;
+    LWork.Validations.Free;
+    LWork.Transforms.Free;
+    LWork.Context.Free;
   end;
 end;
 
-procedure TValidationPipe._ResolveBody(const ADecorator: TCustomAttribute;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._ResolveBody(const AWork: PValidationWork;
+  const ADecorator: TCustomAttribute; const ARequest: IRouteRequest);
 var
   LBody: BodyAttribute;
   LTransform: ITransformInfo;
   LValue: TValue;
   LResultBody: TResultTransform;
   LObject: IModernObject;
+  LJsonMapped: TJsonMapped;
+  LMessages: TList<String>;
 begin
+  // Copy to locals so the anonymous methods below capture the per-request state, not
+  // an instance field (there are no fields anymore).
+  LJsonMapped := AWork.JsonMapped;
+  LMessages := AWork.Messages;
   LBody := BodyAttribute(ADecorator);
   LValue := ARequest.Body;
   if LBody.Transform <> nil then
@@ -207,11 +264,11 @@ begin
           LItem: TPair<String, TList<TValue>>;
         begin
           for LItem in Value.AsType<TJsonMapped> do
-            FJsonMapped.AddOrSetValue(LItem.Key, TList<TValue>.Create(LItem.Value));
+            LJsonMapped.AddOrSetValue(LItem.Key, TList<TValue>.Create(LItem.Value));
         end,
         procedure(Msg: String)
         begin
-          FMessages.AsRef.Add(Msg);
+          LMessages.Add(Msg);
           exit;
         end);
     end
@@ -227,15 +284,15 @@ begin
                                                           'body',
                                                           LBody.Message,
                                                           LBody.ObjectType);
-        FTransforms.Add(LTransform);
+        AWork.Transforms.Add(LTransform);
       end;
     end;
   end;
-  _MapPipes(LBody.ObjectType, ARequest);
+  _MapPipes(AWork, LBody.ObjectType, ARequest);
 end;
 
-procedure TValidationPipe._ResolveParams(const ADecorator: TCustomAttribute;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._ResolveParams(const AWork: PValidationWork;
+  const ADecorator: TCustomAttribute; const ARequest: IRouteRequest);
 var
   LValue: TValue;
   LParam: ParamAttribute;
@@ -255,7 +312,7 @@ begin
                                                       LParam.ParamName,
                                                       LParam.Message,
                                                       nil);
-    FTransforms.Add(LTransform);
+    AWork.Transforms.Add(LTransform);
   end;
   // Validation
   if LParam.Validation <> nil then
@@ -267,17 +324,17 @@ begin
                                                     LParam.TagName,
                                                     LParam.ParamName,
                                                     LParam.Message, 'param', nil);
-    FValidations.Add(LValidation);
+    AWork.Validations.Add(LValidation);
   end;
 end;
 
-procedure TValidationPipe._MapValidation(const AClass: TClass;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._MapValidation(const AWork: PValidationWork;
+  const AClass: TClass; const ARequest: IRouteRequest);
 var
   LRttiType: TRttiType;
 begin
-  LRttiType := FContext.GetType(AClass);
-  _ResolvePayLoads(LRttiType, ARequest);
+  LRttiType := AWork.Context.GetType(AClass);
+  _ResolvePayLoads(AWork, LRttiType, ARequest);
 end;
 
 function TValidationPipe._ArrayMerge<T>(const AArray1, AArray2: TArray<T>): TArray<T>;
@@ -299,17 +356,17 @@ begin
     Move(AArray2[0], Result[LLength1], LLength2 * SizeOf(T));
 end;
 
-procedure TValidationPipe._MapPipes(const AClass: TClass;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._MapPipes(const AWork: PValidationWork;
+  const AClass: TClass; const ARequest: IRouteRequest);
 var
   LRttiType: TRttiType;
 begin
-  LRttiType := FContext.GetType(AClass);
-  _ResolvePipes(AClass, LRttiType, ARequest);
+  LRttiType := AWork.Context.GetType(AClass);
+  _ResolvePipes(AWork, AClass, LRttiType, ARequest);
 end;
 
-procedure TValidationPipe._ResolvePayLoads(const ARttiType: TRttiType;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._ResolvePayLoads(const AWork: PValidationWork;
+  const ARttiType: TRttiType; const ARequest: IRouteRequest);
 var
   LMethod: TRttiMethod;
   LDecorator: TCustomAttribute;
@@ -338,19 +395,19 @@ begin
       DebugPrint('Decorator -> ' + LDecorator.ClassName);
       {$ENDIF}
       if LDecorator is BodyAttribute then
-        _ResolveBody(LDecorator, ARequest)
+        _ResolveBody(AWork, LDecorator, ARequest)
       else
       if LDecorator is ParamAttribute then
-        _ResolveParams(LDecorator, ARequest)
+        _ResolveParams(AWork, LDecorator, ARequest)
       else
       if LDecorator is QueryAttribute then
-        _ResolveQuerys(LDecorator, ARequest);
+        _ResolveQuerys(AWork, LDecorator, ARequest);
     end;
   end;
 end;
 
-procedure TValidationPipe._ResolvePipes(const AClass: TClass;
-  const ARttiType: TRttiType; const ARequest: IRouteRequest);
+procedure TValidationPipe._ResolvePipes(const AWork: PValidationWork;
+  const AClass: TClass; const ARttiType: TRttiType; const ARequest: IRouteRequest);
 var
   LProperty: TRttiProperty;
   LDecorator: TCustomAttribute;
@@ -370,14 +427,14 @@ begin
     begin
       LClassType := LProperty.GetValue(AClass).AsClass;
       // Map Object
-      _MapPipes(LClassType, ARequest);
+      _MapPipes(AWork, LClassType, ARequest);
     end;
     for LDecorator in LProperty.GetAttributes do
     begin
       LIsAttribute := IsAttribute(LDecorator);
       LKey := AClass.ClassName + '->' + LProperty.Name;
       LParams_0 := IsAttribute(LDecorator).Params;
-      if FJsonMapped.TryGetValue(LKey, LValues) then
+      if AWork.JsonMapped.TryGetValue(LKey, LValues) then
       begin
         for LFor := 0 to LValues.Count -1 do
         begin
@@ -391,15 +448,15 @@ begin
                                                           LIsAttribute.Message,
                                                           AClass.ClassName,
                                                           LClassType);
-          FValidations.Add(LValidation);
+          AWork.Validations.Add(LValidation);
         end;
       end;
     end;
   end;
 end;
 
-procedure TValidationPipe._ResolveQuerys(const ADecorator: TCustomAttribute;
-  const ARequest: IRouteRequest);
+procedure TValidationPipe._ResolveQuerys(const AWork: PValidationWork;
+  const ADecorator: TCustomAttribute; const ARequest: IRouteRequest);
 var
   LValue: TValue;
   LQuery: QueryAttribute;
@@ -419,7 +476,7 @@ begin
                                                       LQuery.QueryName,
                                                       LQuery.Message,
                                                       nil);
-    FTransforms.Add(LTransform);
+    AWork.Transforms.Add(LTransform);
   end;
   // Validation
   if LQuery.Validation <> nil then
@@ -431,21 +488,23 @@ begin
                                                     LQuery.TagName,
                                                     LQuery.QueryName,
                                                     LQuery.Message, 'query', nil);
-    FValidations.Add(LValidation);
+    AWork.Validations.Add(LValidation);
   end;
 end;
 
 function TValidationPipe.BuildMessages: String;
 var
+  LMessages: TList<String>;
   LJsonArray: String;
   LJsonItem: String;
   LFor: Integer;
 begin
+  LMessages := _CurrentMessages;
   LJsonArray := '[';
-  for LFor := 0 to FMessages.AsRef.Count - 1 do
+  for LFor := 0 to LMessages.Count - 1 do
   begin
-    LJsonItem := Format('"%s"', [FMessages.AsRef[LFor]]);
-    if LFor < FMessages.AsRef.Count - 1 then
+    LJsonItem := Format('"%s"', [LMessages[LFor]]);
+    if LFor < LMessages.Count - 1 then
       LJsonItem := LJsonItem + ',';
     LJsonArray := LJsonArray + LJsonItem;
   end;
@@ -518,6 +577,3 @@ begin
 end;
 
 end.
-
-
-
