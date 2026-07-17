@@ -313,7 +313,12 @@ begin
     LRouteHandle := FRegister.FindRecord(APath);
     if LRouteHandle <> nil then
     begin
-      FRegister.Pipe.Validate(LRouteHandle, FRequest);
+      // THREAD-SAFETY: validate with the request PARAMETER, not the singleton field
+      // FRequest. TNidus is a process-wide singleton (GetNidus); between `FRequest :=
+      // AReq` above and here another thread's LoadRouteModule can overwrite FRequest,
+      // so a concurrent request would be validated against the wrong body. AReq is this
+      // call's own request. (FRequest stays stamped for the public TNidus.Request getter.)
+      FRegister.Pipe.Validate(LRouteHandle, AReq);
       if FRegister.Pipe.IsMessages then
       begin
         Result.Failure(EBadRequestException.Create(FRegister.Pipe.BuildMessages));
