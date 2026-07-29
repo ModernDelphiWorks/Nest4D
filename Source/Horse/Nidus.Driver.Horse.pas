@@ -24,6 +24,7 @@ uses
   Web.HTTPApp,
   ModernSyntax.ResultPair,
   Horse,
+  Horse.Commons,  // must stay after Web.HTTPApp: Horse 4.x declares its own TMethodType
   Nidus,
   Nidus.Module,
   Nidus.Exception,

@@ -21,7 +21,8 @@ uses
   SyncObjs,
   Generics.Collections,
   Web.HTTPApp,
-  Horse;
+  Horse,
+  Horse.Commons;  // must stay after Web.HTTPApp: Horse 4.x declares its own TMethodType
 
 type
   THorseResponseCacheOptions = class
