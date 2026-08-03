@@ -104,7 +104,7 @@ jobs:
 
       - name: Setup .NET
         if: matrix.stack == 'csharp'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with: { dotnet-version: '8.x' }
       - name: Run Stryker.NET
         if: matrix.stack == 'csharp'
